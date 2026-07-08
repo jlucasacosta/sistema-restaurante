@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Fallbacks. El layout inyecta los valores reales del theme activo (Brasa). */
+  --primary: #2b2320;
+  --accent: #e2703a;
+  --bg: #faf6f1;
+  --surface: #ffffff;
+  --fg: #241d1a;
+  --muted: #8a7d74;
+  --border: #ece3d9;
+  --subtle: #f4ede4;
+  --radius: 14px;
+  --pad: 20px;
+  --font-heading: Inter, system-ui, sans-serif;
+  --font-body: Inter, system-ui, sans-serif;
+
+  /* Sistema de elevacion tech (sombras suaves en capas, tono calido) */
+  --shadow-sm: 0 1px 2px rgb(43 35 32 / 0.04), 0 1px 3px rgb(43 35 32 / 0.06);
+  --shadow-card: 0 1px 3px rgb(43 35 32 / 0.06), 0 6px 16px rgb(43 35 32 / 0.05);
+  --shadow-pop: 0 6px 16px rgb(43 35 32 / 0.08), 0 16px 32px rgb(43 35 32 / 0.10);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body { font-family: var(--font-body); }
+h1, h2, h3 { letter-spacing: -0.012em; }
