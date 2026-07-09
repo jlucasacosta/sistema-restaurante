@@ -5,6 +5,14 @@ import { getPlatos, type Plato, type Categoria } from "./api"
 
 const filtros: ("todas" | Categoria)[] = ["todas", "entradas", "principales", "postres", "bebidas"]
 
+// Mapas literales: Tailwind necesita ver la clase completa en el fuente.
+const catTint: Record<Categoria, string> = {
+  entradas: "bg-info/15 text-info",
+  principales: "bg-primary/15 text-primary",
+  postres: "bg-accent/15 text-accent",
+  bebidas: "bg-success/15 text-success",
+}
+
 export function MenuPage() {
   const [items, setItems] = useState<Plato[]>([])
   const [filtro, setFiltro] = useState<"todas" | Categoria>("todas")
@@ -26,7 +34,7 @@ export function MenuPage() {
               onClick={() => setFiltro(f)}
               className={
                 "rounded-lg px-3 py-1.5 text-sm capitalize transition-colors " +
-                (filtro === f ? "bg-surface font-medium text-primary shadow-sm" : "text-muted hover:text-fg")
+                (filtro === f ? "bg-surface font-medium text-fg shadow-sm" : "text-muted hover:text-fg")
               }
             >
               {f}
@@ -39,18 +47,23 @@ export function MenuPage() {
         {visibles.map((p) => (
           <div
             key={p.id}
-            className="overflow-hidden rounded-xl bg-surface shadow-card transition-shadow hover:shadow-pop"
+            className={
+              "overflow-hidden rounded-xl bg-surface shadow-card transition-shadow hover:shadow-pop " +
+              (p.disponible ? "" : "opacity-60")
+            }
           >
             <div className="flex h-32 items-center justify-center bg-subtle">
               <UtensilsCrossed size={38} className="text-muted" />
             </div>
             <div className="space-y-2 p-5">
               <div className="flex items-center justify-between gap-2">
-                <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs uppercase tracking-wide text-bg">{p.categoria}</span>
+                <span className={"rounded-full px-2.5 py-0.5 text-xs uppercase tracking-wide " + catTint[p.categoria]}>
+                  {p.categoria}
+                </span>
                 <span
                   className={
                     "rounded-full px-2.5 py-0.5 text-xs " +
-                    (p.disponible ? "bg-subtle text-accent" : "bg-subtle text-muted")
+                    (p.disponible ? "bg-success/15 text-success" : "bg-danger/15 text-danger")
                   }
                 >
                   {p.disponible ? "disponible" : "agotado"}

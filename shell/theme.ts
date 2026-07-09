@@ -1,9 +1,12 @@
 // theme.ts · Brasa Cocina (sistema restaurante)
 // LA PALANCA DE DISEÑO. Nada se hardcodea: todo lee de aca.
-// Lenguaje visual: tech / SaaS (elevacion, radio, aire). Marca: espresso + terracota.
+// Modo OSCURO: brasa, fuego, servicio de noche. En oscuro el surface
+// es MAS CLARO que el bg para que la tarjeta flote sobre el fondo.
+// Color de nicho: brasa (primary) + amarillo llama (accent).
 
 export type Theme = {
   brand: { name: string; logo?: string }
+  mode: "light" | "dark"
   colors: {
     primary: string
     accent: string
@@ -13,6 +16,11 @@ export type Theme = {
     muted: string
     border: string
     subtle: string
+    // Semanticos: estados, badges, metricas. LOS CUATRO, SIEMPRE.
+    success: string
+    warning: string
+    danger: string
+    info: string
   }
   font: { heading: string; body: string }
   radius: "sharp" | "soft" | "round"
@@ -21,18 +29,23 @@ export type Theme = {
 
 export const brasa: Theme = {
   brand: { name: "Brasa Cocina" },
+  mode: "dark",
   colors: {
-    primary: "#2b2320",
-    accent: "#e2703a",
-    bg: "#faf6f1",
-    surface: "#ffffff",
-    fg: "#241d1a",
-    muted: "#8a7d74",
-    border: "#ece3d9",
-    subtle: "#f4ede4",
+    primary: "#ff5a36",
+    accent: "#f5b301",
+    bg: "#14100e",
+    surface: "#1f1916",
+    fg: "#f5f0ec",
+    muted: "#9a8d85",
+    border: "#2e2620",
+    subtle: "#251e1a",
+    success: "#34d399",
+    warning: "#fbbf24",
+    danger: "#fb7185",
+    info: "#38bdf8",
   },
   font: { heading: "Inter", body: "Inter" },
-  radius: "round",
+  radius: "soft",
   density: "comfortable",
 }
 

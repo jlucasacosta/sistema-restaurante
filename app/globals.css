@@ -3,24 +3,28 @@
 @tailwind utilities;
 
 :root {
-  /* Fallbacks. El layout inyecta los valores reales del theme activo (Brasa). */
-  --primary: #2b2320;
-  --accent: #e2703a;
-  --bg: #faf6f1;
-  --surface: #ffffff;
-  --fg: #241d1a;
-  --muted: #8a7d74;
-  --border: #ece3d9;
-  --subtle: #f4ede4;
-  --radius: 14px;
+  /* Fallbacks en triplete "R G B". El layout inyecta los valores reales del theme (Brasa). */
+  --primary: 255 90 54;
+  --accent: 245 179 1;
+  --bg: 20 16 14;
+  --surface: 31 25 22;
+  --fg: 245 240 236;
+  --muted: 154 141 133;
+  --border: 46 38 32;
+  --subtle: 37 30 26;
+  --success: 52 211 153;
+  --warning: 251 191 36;
+  --danger: 251 113 133;
+  --info: 56 189 248;
+  --radius: 10px;
   --pad: 20px;
   --font-heading: Inter, system-ui, sans-serif;
   --font-body: Inter, system-ui, sans-serif;
 
-  /* Sistema de elevacion tech (sombras suaves en capas, tono calido) */
-  --shadow-sm: 0 1px 2px rgb(43 35 32 / 0.04), 0 1px 3px rgb(43 35 32 / 0.06);
-  --shadow-card: 0 1px 3px rgb(43 35 32 / 0.06), 0 6px 16px rgb(43 35 32 / 0.05);
-  --shadow-pop: 0 6px 16px rgb(43 35 32 / 0.08), 0 16px 32px rgb(43 35 32 / 0.10);
+  /* Elevacion en oscuro: la sombra hunde (negro puro), el borde separa. */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.45), 0 8px 24px rgb(0 0 0 / 0.35);
+  --shadow-pop: 0 2px 6px rgb(0 0 0 / 0.5), 0 18px 40px rgb(0 0 0 / 0.45);
 }
 
 html {
