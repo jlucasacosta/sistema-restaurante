@@ -1,80 +1,79 @@
 "use client"
 import { useEffect, useState } from "react"
-import { UtensilsCrossed } from "lucide-react"
-import { getPlatos, type Plato, type Categoria } from "./api"
+import { ChevronDown } from "lucide-react"
+import { getCarta, type Seccion, type Plato } from "./api"
 
-const filtros: ("todas" | Categoria)[] = ["todas", "entradas", "principales", "postres", "bebidas"]
+// Acordeon: la carta ES secciones colapsables. No una tabla de productos.
 
-// Mapas literales: Tailwind necesita ver la clase completa en el fuente.
-const catTint: Record<Categoria, string> = {
-  entradas: "bg-info/15 text-info",
-  principales: "bg-primary/15 text-primary",
-  postres: "bg-accent/15 text-accent",
-  bebidas: "bg-success/15 text-success",
+const estadoChip: Record<Plato["estado"], string> = {
+  disponible: "bg-success/15 text-success",
+  "pocas porciones": "bg-warning/15 text-warning",
+  agotado: "bg-danger/15 text-danger",
 }
 
 export function MenuPage() {
-  const [items, setItems] = useState<Plato[]>([])
-  const [filtro, setFiltro] = useState<"todas" | Categoria>("todas")
+  const [secciones, setSecciones] = useState<Seccion[]>([])
+  const [abiertas, setAbiertas] = useState<string[]>([])
 
   useEffect(() => {
-    getPlatos().then(setItems)
+    getCarta().then((s) => {
+      setSecciones(s)
+      setAbiertas(s.slice(0, 2).map((x) => x.id))
+    })
   }, [])
 
-  const visibles = items.filter((p) => filtro === "todas" || p.categoria === filtro)
+  const toggle = (id: string) => setAbiertas((a) => (a.includes(id) ? a.filter((x) => x !== id) : [...a, id]))
+
+  const agotados = secciones.flatMap((s) => s.platos).filter((p) => p.estado === "agotado").length
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="font-heading text-2xl font-semibold">Menu</h1>
-        <div className="flex flex-wrap gap-1 rounded-xl bg-subtle p-1">
-          {filtros.map((f) => (
-            <button
-              key={f}
-              onClick={() => setFiltro(f)}
-              className={
-                "rounded-lg px-3 py-1.5 text-sm capitalize transition-colors " +
-                (filtro === f ? "bg-surface font-medium text-fg shadow-sm" : "text-muted hover:text-fg")
-              }
-            >
-              {f}
-            </button>
-          ))}
-        </div>
+        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Carta</h1>
+        {agotados > 0 && <span className="chip bg-danger/15 text-danger">{agotados} platos agotados</span>}
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {visibles.map((p) => (
-          <div
-            key={p.id}
-            className={
-              "overflow-hidden rounded-xl bg-surface shadow-card transition-shadow hover:shadow-pop " +
-              (p.disponible ? "" : "opacity-60")
-            }
-          >
-            <div className="flex h-32 items-center justify-center bg-subtle">
-              <UtensilsCrossed size={38} className="text-muted" />
-            </div>
-            <div className="space-y-2 p-5">
-              <div className="flex items-center justify-between gap-2">
-                <span className={"rounded-full px-2.5 py-0.5 text-xs uppercase tracking-wide " + catTint[p.categoria]}>
-                  {p.categoria}
+      <div className="space-y-3">
+        {secciones.map((s) => {
+          const abierta = abiertas.includes(s.id)
+          return (
+            <div key={s.id} className="surface-card overflow-hidden">
+              <button
+                onClick={() => toggle(s.id)}
+                className="flex w-full items-center justify-between px-6 py-4 text-left transition-colors hover:bg-subtle"
+              >
+                <span className="flex items-baseline gap-3">
+                  <span className="font-heading text-xl font-bold uppercase tracking-tight">{s.nombre}</span>
+                  <span className="text-xs text-muted">{s.platos.length} platos</span>
                 </span>
-                <span
-                  className={
-                    "rounded-full px-2.5 py-0.5 text-xs " +
-                    (p.disponible ? "bg-success/15 text-success" : "bg-danger/15 text-danger")
-                  }
-                >
-                  {p.disponible ? "disponible" : "agotado"}
-                </span>
-              </div>
-              <h3 className="font-medium">{p.nombre}</h3>
-              <p className="text-sm text-muted">{p.descripcion}</p>
-              <p className="text-lg font-semibold">{p.precio}</p>
+                <ChevronDown
+                  size={20}
+                  strokeWidth={2.5}
+                  className={"text-muted transition-transform " + (abierta ? "rotate-180" : "")}
+                />
+              </button>
+
+              {abierta && (
+                <ul className="border-t border-border">
+                  {s.platos.map((p) => (
+                    <li
+                      key={p.id}
+                      className="flex items-center gap-4 border-b border-border px-6 py-4 last:border-0 hover:bg-subtle"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <p className="font-heading font-bold">{p.nombre}</p>
+                        <p className="truncate text-sm text-muted">{p.descripcion}</p>
+                      </div>
+                      <span className="hidden text-xs text-muted sm:block">{p.vendidosHoy} hoy</span>
+                      <span className={"chip " + estadoChip[p.estado]}>{p.estado}</span>
+                      <span className="mesa-num w-28 text-right text-2xl">{p.precio}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )

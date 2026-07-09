@@ -1,49 +1,45 @@
-// PATRON MOCK. Misma firma que la query real. Reetiquetado para restaurante (comensales).
-// Datos ficticios: emails de patron VARIADO (ver CLAUDE.md §8), telefonos AR con
-// prefijos de distintas ciudades (11, 351, 341, 261). Cero PII real.
-export type Contact = {
+// PATRON MOCK. Misma firma que la query real. Ver BACKEND.md.
+// El comensal no es una fila de tabla: es una ficha con historia.
+// Emails de patron variado y telefonos plausibles (CLAUDE.md §8).
+export type Comensal = {
   id: string
   name: string
   phone: string
   email: string
   visitas: number
-  status: "frecuente" | "nuevo" | "vip" | "inactivo"
+  favorito: string
+  ultima: string
+  tipo: "vip" | "frecuente" | "nuevo" | "inactivo"
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-export async function getContacts(): Promise<Contact[]> {
+export async function getContacts(): Promise<Comensal[]> {
   await sleep(300)
   return [
-    { id: "1", name: "Valentina Ferro", phone: "+54 9 11 4783-2610", email: "valentina.ferro@gmail.com", visitas: 24, status: "vip" },
-    { id: "2", name: "Martin Aguirre", phone: "+54 9 11 6294-1187", email: "jaguirre@outlook.com", visitas: 9, status: "frecuente" },
-    { id: "3", name: "Carla Benitez", phone: "+54 9 351 620-1934", email: "benitez.carla@hotmail.com", visitas: 12, status: "frecuente" },
-    { id: "4", name: "Nicolas Roldan", phone: "+54 9 11 5840-3962", email: "nico.roldan90@gmail.com", visitas: 2, status: "nuevo" },
-    { id: "5", name: "Julieta Campos", phone: "+54 9 341 902-6614", email: "julieta_campos@yahoo.com", visitas: 1, status: "nuevo" },
-    { id: "6", name: "Ezequiel Paz", phone: "+54 9 11 7013-5528", email: "ezequielpaz@gmail.com", visitas: 0, status: "inactivo" },
-    { id: "7", name: "Micaela Sarti", phone: "+54 9 261 801-7352", email: "msarti77@hotmail.com", visitas: 18, status: "vip" },
-    { id: "8", name: "Bruno Lattanzio", phone: "+54 9 11 6672-2049", email: "reservas@brasacocina.com", visitas: 7, status: "frecuente" },
-    { id: "9", name: "Selena Ojeda", phone: "+54 9 11 3390-7715", email: "selena.ojeda@gmail.com", visitas: 3, status: "nuevo" },
-    { id: "10", name: "Priscila Godoy", phone: "+54 9 351 417-8820", email: "pgodoy@outlook.com", visitas: 15, status: "frecuente" },
-    { id: "11", name: "Nahuel Zabala", phone: "+54 9 11 8842-3057", email: "nahuel_zabala@yahoo.com", visitas: 0, status: "inactivo" },
-    { id: "12", name: "Ivana Cardozo", phone: "+54 9 11 4550-7268", email: "cardozo.ivana@hotmail.com", visitas: 21, status: "vip" },
-    { id: "13", name: "Gaston Uriarte", phone: "+54 9 341 336-5029", email: "gastonuriarte@gmail.com", visitas: 6, status: "frecuente" },
-    { id: "14", name: "Delfina Roldan", phone: "+54 9 11 6134-8890", email: "delfi.roldan88@gmail.com", visitas: 2, status: "nuevo" },
-    { id: "15", name: "Ramiro Aguirre", phone: "+54 9 261 550-4417", email: "raguirre@outlook.com", visitas: 11, status: "frecuente" },
-    { id: "16", name: "Ludmila Ferrari", phone: "+54 9 11 2117-4903", email: "ferrari.ludmila@hotmail.com", visitas: 1, status: "nuevo" },
-    { id: "17", name: "Emanuel Prieto", phone: "+54 9 11 7446-2085", email: "emanuel_prieto@yahoo.com", visitas: 19, status: "vip" },
-    { id: "18", name: "Sofia Maidana", phone: "+54 9 351 728-3364", email: "sofimaidana@gmail.com", visitas: 8, status: "frecuente" },
-    { id: "19", name: "Alan Corvalan", phone: "+54 9 11 5739-1264", email: "acorvalan@outlook.com", visitas: 0, status: "inactivo" },
-    { id: "20", name: "Julieta Naranjo", phone: "+54 9 341 615-8072", email: "juli.naranjo01@gmail.com", visitas: 3, status: "nuevo" },
-    { id: "21", name: "Ezequiel Barrios", phone: "+54 9 11 6708-4429", email: "eze_barrios@yahoo.com", visitas: 13, status: "frecuente" },
-    { id: "22", name: "Mora Cantero", phone: "+54 9 11 5240-9976", email: "mcantero90@hotmail.com", visitas: 27, status: "vip" },
-    { id: "23", name: "Ignacio Rivarola", phone: "+54 9 261 803-1129", email: "nacho.rivarola@gmail.com", visitas: 5, status: "frecuente" },
-    { id: "24", name: "Abril Sanguinetti", phone: "+54 9 11 3623-5108", email: "asanguinetti@outlook.com", visitas: 1, status: "nuevo" },
-    { id: "25", name: "Lisandro Moyano", phone: "+54 9 351 490-2731", email: "lisandromoyano@gmail.com", visitas: 0, status: "inactivo" },
-    { id: "26", name: "Guadalupe Tessa", phone: "+54 9 11 1439-6650", email: "guada_tessa@yahoo.com", visitas: 16, status: "vip" },
-    { id: "27", name: "Benicio Lauria", phone: "+54 9 341 706-3384", email: "blauria@hotmail.com", visitas: 4, status: "frecuente" },
-    { id: "28", name: "Antonella Prado", phone: "+54 9 11 2851-9047", email: "prado.antonella@gmail.com", visitas: 2, status: "nuevo" },
-    { id: "29", name: "Valentin Ocampo", phone: "+54 9 261 639-1720", email: "vocampo85@yahoo.com", visitas: 0, status: "inactivo" },
-    { id: "30", name: "Camila Duarte", phone: "+54 9 11 4718-8562", email: "camila.duarte@gmail.com", visitas: 22, status: "vip" },
+    { id: "1", name: "Mariana Ferreyra", phone: "+54 9 11 4783-2610", email: "mariana.ferreyra@gmail.com", visitas: 34, favorito: "Bife de chorizo", ultima: "hace 4 dias", tipo: "vip" },
+    { id: "2", name: "Ignacio Bilbao", phone: "+54 9 11 6294-1187", email: "ibilbao@outlook.com", visitas: 21, favorito: "Sorrentinos de osobuco", ultima: "hace 9 dias", tipo: "vip" },
+    { id: "3", name: "Lorena Zunino", phone: "+54 9 11 3126-8074", email: "zunino.lorena@hotmail.com", visitas: 17, favorito: "Risotto de hongos", ultima: "ayer", tipo: "frecuente" },
+    { id: "4", name: "Emilio Alcaraz", phone: "+54 9 11 5840-3962", email: "emi.alcaraz90@gmail.com", visitas: 12, favorito: "Entraña", ultima: "hace 2 dias", tipo: "frecuente" },
+    { id: "5", name: "Sabrina Etchevers", phone: "+54 9 11 2957-6431", email: "sabri_etchevers@yahoo.com", visitas: 9, favorito: "Pesca del dia", ultima: "hace 3 semanas", tipo: "frecuente" },
+    { id: "6", name: "Hernan Bustamante", phone: "+54 9 351 620-1934", email: "hbustamante77@hotmail.com", visitas: 28, favorito: "Asado de tira", ultima: "hace 6 dias", tipo: "vip" },
+    { id: "7", name: "Cecilia Pizarro", phone: "+54 9 11 7013-5528", email: "ceciliapizarro@gmail.com", visitas: 15, favorito: "Provoleta", ultima: "hace 11 dias", tipo: "frecuente" },
+    { id: "8", name: "Diego Recalde", phone: "+54 9 11 4406-9173", email: "recalde.diego@outlook.com", visitas: 6, favorito: "Milanesa napolitana", ultima: "hace 5 dias", tipo: "frecuente" },
+    { id: "9", name: "Valeria Ledesma", phone: "+54 9 11 6672-2049", email: "vale.ledesma@gmail.com", visitas: 3, favorito: "Burrata de la casa", ultima: "hace 8 dias", tipo: "nuevo" },
+    { id: "10", name: "Ramiro Iturralde", phone: "+54 9 341 902-6614", email: "riturralde@gmail.com", visitas: 41, favorito: "Ojo de bife", ultima: "hoy", tipo: "vip" },
+    { id: "11", name: "Paula Sanz", phone: "+54 9 11 5217-4486", email: "paula_sanz@yahoo.com", visitas: 2, favorito: "Rabas", ultima: "hace 2 dias", tipo: "nuevo" },
+    { id: "12", name: "Joaquin Nogueira", phone: "+54 9 11 8842-3057", email: "joaconogueira@gmail.com", visitas: 19, favorito: "Cazuela de mariscos", ultima: "hace 4 dias", tipo: "frecuente" },
+    { id: "13", name: "Andrea Del Valle", phone: "+54 9 11 4550-7268", email: "adelvalle@hotmail.com", visitas: 8, favorito: "Flan casero", ultima: "hace 16 dias", tipo: "frecuente" },
+    { id: "14", name: "Martin Otamendi", phone: "+54 9 261 801-7352", email: "martin.otamendi@gmail.com", visitas: 24, favorito: "Bife de chorizo", ultima: "hace 7 dias", tipo: "vip" },
+    { id: "15", name: "Silvina Aristi", phone: "+54 9 11 6134-8890", email: "silvi.aristi@outlook.com", visitas: 5, favorito: "Volcan de chocolate", ultima: "hace mes y medio", tipo: "inactivo" },
+    { id: "16", name: "Federico Mendiburu", phone: "+54 9 11 2117-4903", email: "fmendiburu@gmail.com", visitas: 11, favorito: "Ñoquis caseros", ultima: "hace 12 dias", tipo: "frecuente" },
+    { id: "17", name: "Carla Ottonello", phone: "+54 9 11 7446-2085", email: "carla_ottonello@yahoo.com", visitas: 1, favorito: "Empanadas de carne", ultima: "hace 3 dias", tipo: "nuevo" },
+    { id: "18", name: "Nicolas Vaccaro", phone: "+54 9 11 3852-6640", email: "nico.vaccaro@gmail.com", visitas: 14, favorito: "Ceviche de la casa", ultima: "hace 2 meses", tipo: "inactivo" },
+    { id: "19", name: "Rocio Bilbao", phone: "+54 9 11 5739-1264", email: "rociobilbao@hotmail.com", visitas: 7, favorito: "Tartar de trucha", ultima: "hace 10 dias", tipo: "frecuente" },
+    { id: "20", name: "Tomas Larrosa", phone: "+54 9 11 2965-8317", email: "tomilarrosa88@gmail.com", visitas: 4, favorito: "Humita en chala", ultima: "hace 6 dias", tipo: "nuevo" },
+    { id: "21", name: "Julia Mansilla", phone: "+54 9 11 6708-4429", email: "mansilla.julia@outlook.com", visitas: 31, favorito: "Pesca del dia", ultima: "hace 3 dias", tipo: "vip" },
+    { id: "22", name: "Gabriel Sarasola", phone: "+54 9 11 5240-9976", email: "gabosarasola@gmail.com", visitas: 2, favorito: "Cerveza artesanal", ultima: "hace 2 meses", tipo: "inactivo" },
+    { id: "23", name: "Belen Casartelli", phone: "+54 9 11 3623-5108", email: "belu_casartelli@yahoo.com", visitas: 16, favorito: "Malbec de la casa", ultima: "ayer", tipo: "frecuente" },
+    { id: "24", name: "Alejo Zubiaurre", phone: "+54 9 11 9584-2731", email: "azubiaurre@gmail.com", visitas: 23, favorito: "Asado de tira", ultima: "hace 5 dias", tipo: "vip" },
   ]
 }

@@ -1,12 +1,18 @@
 // theme.ts · Brasa Cocina (sistema restaurante)
 // LA PALANCA DE DISEÑO. Nada se hardcodea: todo lee de aca.
-// Modo OSCURO: brasa, fuego, servicio de noche. En oscuro el surface
-// es MAS CLARO que el bg para que la tarjeta flote sobre el fondo.
-// Color de nicho: brasa (primary) + amarillo llama (accent).
+// Ficha de Diseño: ver DISENO.md. Cliche rechazado: la trattoria rustica
+// (pizarron de tiza, madera envejecida, rojo tomate). Esto es una sala de
+// operaciones a las 21:30 con la cocina al rojo.
 
 export type Theme = {
   brand: { name: string; logo?: string }
   mode: "light" | "dark"
+  nav: "sidebar" | "topbar" | "rail"
+  elevation: "raised" | "outlined" | "flat"
+  badge: "pill" | "square"
+  radius: "sharp" | "soft" | "round"
+  density: "compact" | "comfortable"
+  font: { heading: string; body: string }
   colors: {
     primary: string
     accent: string
@@ -16,37 +22,40 @@ export type Theme = {
     muted: string
     border: string
     subtle: string
-    // Semanticos: estados, badges, metricas. LOS CUATRO, SIEMPRE.
     success: string
     warning: string
     danger: string
     info: string
   }
-  font: { heading: string; body: string }
-  radius: "sharp" | "soft" | "round"
-  density: "comfortable" | "compact"
+  // Umbrales de coccion, en minutos. El Riel del Pase envejece con esto.
+  // Tambien viven aca: ningun componente inventa un numero magico.
+  fuego: { ok: number; demora: number }
 }
 
 export const brasa: Theme = {
   brand: { name: "Brasa Cocina" },
   mode: "dark",
-  colors: {
-    primary: "#ff5a36",
-    accent: "#f5b301",
-    bg: "#14100e",
-    surface: "#1f1916",
-    fg: "#f5f0ec",
-    muted: "#9a8d85",
-    border: "#2e2620",
-    subtle: "#251e1a",
-    success: "#34d399",
-    warning: "#fbbf24",
-    danger: "#fb7185",
-    info: "#38bdf8",
-  },
-  font: { heading: "Inter", body: "Inter" },
-  radius: "soft",
+  nav: "rail",
+  elevation: "raised",
+  badge: "pill",
+  radius: "round",
   density: "comfortable",
+  font: { heading: "Archivo", body: "Manrope" },
+  colors: {
+    primary: "#e2603b", // ceniza-brasa: sostiene sin gritar
+    accent: "#ff7a1a", // glow-orange: lo urgente
+    bg: "#16110f", // carbon-ceniza
+    surface: "#231b17",
+    fg: "#f6efe9",
+    muted: "#a1928a",
+    border: "#372b25",
+    subtle: "#2b211c",
+    success: "#4fb28c", // verde frio DESATURADO: no compite con el ambar
+    warning: "#f2a63c",
+    danger: "#e2483d", // rojo aji
+    info: "#6fa8bd",
+  },
+  fuego: { ok: 6, demora: 12 },
 }
 
 export const theme: Theme = brasa

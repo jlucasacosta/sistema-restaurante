@@ -1,45 +1,77 @@
-// PATRON MOCK. Misma firma que la query real. Reetiquetado para restaurante.
-export type Categoria = "entradas" | "principales" | "postres" | "bebidas"
+// PATRON MOCK. Misma firma que la query real. Ver BACKEND.md.
+// La carta ES secciones: el arquetipo del modulo (acordeon) sale del dato, no al reves.
 export type Plato = {
   id: string
   nombre: string
-  categoria: Categoria
-  precio: string
   descripcion: string
-  disponible: boolean
+  precio: string
+  estado: "disponible" | "pocas porciones" | "agotado"
+  vendidosHoy: number
 }
+export type Seccion = { id: string; nombre: string; platos: Plato[] }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-export async function getPlatos(): Promise<Plato[]> {
+export async function getCarta(): Promise<Seccion[]> {
   await sleep(300)
   return [
-    { id: "1", nombre: "Provoleta a la parrilla", categoria: "entradas", precio: "$ 4.200", descripcion: "Con oregano, aceite de oliva y pan de campo", disponible: true },
-    { id: "2", nombre: "Empanadas de carne (x3)", categoria: "entradas", precio: "$ 3.600", descripcion: "Cortadas a cuchillo, masa casera", disponible: true },
-    { id: "3", nombre: "Rabas a la provenzal", categoria: "entradas", precio: "$ 6.900", descripcion: "Anillas de calamar, ajo y perejil, limon", disponible: true },
-    { id: "4", nombre: "Tabla de fiambres", categoria: "entradas", precio: "$ 8.100", descripcion: "Para compartir: jamon crudo, salame y quesos", disponible: true },
-    { id: "5", nombre: "Mollejas al verdeo", categoria: "entradas", precio: "$ 7.400", descripcion: "Doradas a la parrilla con salsa de verdeo", disponible: false },
-    { id: "6", nombre: "Bruschettas de tomate", categoria: "entradas", precio: "$ 3.900", descripcion: "Pan tostado, tomate, albahaca y oliva", disponible: true },
-    { id: "7", nombre: "Bife de chorizo", categoria: "principales", precio: "$ 11.900", descripcion: "400g a la brasa con guarnicion a eleccion", disponible: true },
-    { id: "8", nombre: "Ojo de bife", categoria: "principales", precio: "$ 13.500", descripcion: "350g madurado, sal parrillera y chimichurri", disponible: false },
-    { id: "9", nombre: "Milanesa napolitana", categoria: "principales", precio: "$ 9.400", descripcion: "Con jamon, queso y salsa, papas fritas", disponible: true },
-    { id: "10", nombre: "Ravioles de ricota y nuez", categoria: "principales", precio: "$ 8.200", descripcion: "Salsa a eleccion: fileto, crema o mixta", disponible: false },
-    { id: "11", nombre: "Sorrentinos de jamon y queso", categoria: "principales", precio: "$ 8.600", descripcion: "Rellenos, con salsa rosa de la casa", disponible: true },
-    { id: "12", nombre: "Asado de tira", categoria: "principales", precio: "$ 12.300", descripcion: "Tira ancha a la parrilla con ensalada mixta", disponible: true },
-    { id: "13", nombre: "Pollo al horno con papas", categoria: "principales", precio: "$ 8.900", descripcion: "Suprema jugosa, papas rusticas al romero", disponible: true },
-    { id: "14", nombre: "Salmon grillado", categoria: "principales", precio: "$ 14.200", descripcion: "Con pure de calabaza y manteca de hierbas", disponible: false },
-    { id: "15", nombre: "Risotto de hongos", categoria: "principales", precio: "$ 9.700", descripcion: "Arroz carnaroli, portobello y parmesano", disponible: true },
-    { id: "16", nombre: "Bondiola braseada", categoria: "principales", precio: "$ 10.800", descripcion: "Cocinada 8 horas, reduccion de malbec", disponible: true },
-    { id: "17", nombre: "Flan casero con dulce", categoria: "postres", precio: "$ 3.900", descripcion: "Con dulce de leche y crema", disponible: true },
-    { id: "18", nombre: "Volcan de chocolate", categoria: "postres", precio: "$ 4.500", descripcion: "Tibio, con helado de crema americana", disponible: true },
-    { id: "19", nombre: "Panqueque de dulce de leche", categoria: "postres", precio: "$ 3.700", descripcion: "Flameado en la mesa, clasico de la casa", disponible: true },
-    { id: "20", nombre: "Tiramisu de la casa", categoria: "postres", precio: "$ 4.300", descripcion: "Mascarpone, cafe y cacao amargo", disponible: false },
-    { id: "21", nombre: "Helado artesanal (2 bochas)", categoria: "postres", precio: "$ 3.400", descripcion: "Sabores del dia, consultar al mozo", disponible: true },
-    { id: "22", nombre: "Limonada de jengibre", categoria: "bebidas", precio: "$ 2.800", descripcion: "Jarra de 500ml, menta y jengibre", disponible: true },
-    { id: "23", nombre: "Vino Malbec (copa)", categoria: "bebidas", precio: "$ 3.400", descripcion: "Seleccion de la casa, Valle de Uco", disponible: true },
-    { id: "24", nombre: "Vino Malbec (botella)", categoria: "bebidas", precio: "$ 12.900", descripcion: "Reserva, guarda 12 meses en roble", disponible: true },
-    { id: "25", nombre: "Cerveza artesanal (pinta)", categoria: "bebidas", precio: "$ 3.100", descripcion: "Rubia o roja, elaboracion local", disponible: false },
-    { id: "26", nombre: "Agua saborizada", categoria: "bebidas", precio: "$ 1.900", descripcion: "Pomelo o manzana, botella 500ml", disponible: true },
-    { id: "27", nombre: "Gaseosa (500ml)", categoria: "bebidas", precio: "$ 2.100", descripcion: "Linea cola, lima-limon o naranja", disponible: true },
+    {
+      id: "entradas",
+      nombre: "Entradas",
+      platos: [
+        { id: "e1", nombre: "Provoleta a la brasa", descripcion: "oregano, aceite de oliva, pan de campo", precio: "$ 7.400", estado: "disponible", vendidosHoy: 18 },
+        { id: "e2", nombre: "Burrata de la casa", descripcion: "tomates asados, albahaca, focaccia", precio: "$ 9.200", estado: "disponible", vendidosHoy: 12 },
+        { id: "e3", nombre: "Empanadas de carne", descripcion: "cortadas a cuchillo, tres unidades", precio: "$ 6.100", estado: "pocas porciones", vendidosHoy: 31 },
+        { id: "e4", nombre: "Rabas", descripcion: "limon, alioli de ajo asado", precio: "$ 11.500", estado: "disponible", vendidosHoy: 9 },
+        { id: "e5", nombre: "Tartar de trucha", descripcion: "palta, citricos, tostadas finas", precio: "$ 10.800", estado: "agotado", vendidosHoy: 14 },
+        { id: "e6", nombre: "Humita en chala", descripcion: "receta del norte, queso de cabra", precio: "$ 6.900", estado: "disponible", vendidosHoy: 6 },
+      ],
+    },
+    {
+      id: "principales",
+      nombre: "Principales",
+      platos: [
+        { id: "p1", nombre: "Bife de chorizo", descripcion: "400g, brasa de quebracho, chimichurri", precio: "$ 24.500", estado: "disponible", vendidosHoy: 27 },
+        { id: "p2", nombre: "Ojo de bife", descripcion: "350g, sal parrillera, papas rusticas", precio: "$ 26.900", estado: "disponible", vendidosHoy: 21 },
+        { id: "p3", nombre: "Entraña", descripcion: "corte fino, ensalada de estacion", precio: "$ 22.800", estado: "pocas porciones", vendidosHoy: 19 },
+        { id: "p4", nombre: "Asado de tira", descripcion: "tres costillas, coccion lenta", precio: "$ 21.400", estado: "disponible", vendidosHoy: 16 },
+        { id: "p5", nombre: "Sorrentinos de osobuco", descripcion: "salsa de tomate y vino tinto", precio: "$ 18.600", estado: "disponible", vendidosHoy: 24 },
+        { id: "p6", nombre: "Risotto de hongos", descripcion: "portobello, parmesano, tomillo", precio: "$ 17.200", estado: "disponible", vendidosHoy: 11 },
+        { id: "p7", nombre: "Pesca del dia", descripcion: "vegetales de estacion, manteca de limon", precio: "$ 23.100", estado: "pocas porciones", vendidosHoy: 8 },
+        { id: "p8", nombre: "Ñoquis caseros", descripcion: "a eleccion: fileto, pesto o cuatro quesos", precio: "$ 15.900", estado: "disponible", vendidosHoy: 13 },
+        { id: "p9", nombre: "Cazuela de mariscos", descripcion: "azafran, tomate, pan tostado", precio: "$ 25.300", estado: "agotado", vendidosHoy: 7 },
+        { id: "p10", nombre: "Milanesa napolitana", descripcion: "ternera, jamon, mozzarella, pure", precio: "$ 19.700", estado: "disponible", vendidosHoy: 22 },
+      ],
+    },
+    {
+      id: "guarniciones",
+      nombre: "Guarniciones",
+      platos: [
+        { id: "g1", nombre: "Papas rusticas", descripcion: "romero y ajo confitado", precio: "$ 5.200", estado: "disponible", vendidosHoy: 44 },
+        { id: "g2", nombre: "Batatas al romero", descripcion: "miel de caña", precio: "$ 5.400", estado: "disponible", vendidosHoy: 17 },
+        { id: "g3", nombre: "Ensalada de estacion", descripcion: "hojas verdes, tomate, cebolla morada", precio: "$ 4.800", estado: "disponible", vendidosHoy: 29 },
+        { id: "g4", nombre: "Vegetales a la brasa", descripcion: "zucchini, morron, berenjena", precio: "$ 5.900", estado: "pocas porciones", vendidosHoy: 10 },
+      ],
+    },
+    {
+      id: "postres",
+      nombre: "Postres",
+      platos: [
+        { id: "d1", nombre: "Flan casero", descripcion: "dulce de leche y crema", precio: "$ 6.300", estado: "disponible", vendidosHoy: 26 },
+        { id: "d2", nombre: "Volcan de chocolate", descripcion: "corazon tibio, helado de vainilla", precio: "$ 7.100", estado: "disponible", vendidosHoy: 20 },
+        { id: "d3", nombre: "Helado artesanal", descripcion: "tres bochas a eleccion", precio: "$ 5.600", estado: "disponible", vendidosHoy: 33 },
+        { id: "d4", nombre: "Panqueque de manzana", descripcion: "canela, caramelo salado", precio: "$ 6.800", estado: "agotado", vendidosHoy: 12 },
+      ],
+    },
+    {
+      id: "bebidas",
+      nombre: "Bebidas",
+      platos: [
+        { id: "b1", nombre: "Malbec de la casa", descripcion: "copa / botella", precio: "$ 4.900", estado: "disponible", vendidosHoy: 58 },
+        { id: "b2", nombre: "Cerveza artesanal", descripcion: "IPA, rubia o negra, pinta", precio: "$ 4.200", estado: "disponible", vendidosHoy: 47 },
+        { id: "b3", nombre: "Limonada de jengibre", descripcion: "menta fresca, jarra", precio: "$ 3.800", estado: "disponible", vendidosHoy: 21 },
+        { id: "b4", nombre: "Agua con gas", descripcion: "500ml", precio: "$ 2.400", estado: "pocas porciones", vendidosHoy: 39 },
+      ],
+    },
   ]
 }

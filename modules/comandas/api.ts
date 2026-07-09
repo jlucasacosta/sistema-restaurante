@@ -1,48 +1,75 @@
-// PATRON MOCK. Misma firma que la query real. Reetiquetado para restaurante.
-export type EstadoCocina = "pendiente" | "preparacion" | "servida" | "cancelada"
-export type Estado = { id: EstadoCocina; nombre: string }
+// PATRON MOCK. Misma firma que la query real. Ver BACKEND.md.
+// La comanda es la unidad de trabajo de la cocina. `firedHace` son los segundos
+// transcurridos desde que se disparo: el cronometro arranca de ahi y sigue
+// corriendo en el cliente. En el backend real sale de now() - fired_at.
+export type Item = { qty: number; nombre: string; mod?: string }
 export type Comanda = {
   id: string
   mesa: string
-  items: string[]
-  total: string
-  estadoId: EstadoCocina
+  mozo: string
+  estado: "en cocina" | "emplatando" | "listo"
+  estacion: "parrilla" | "fria" | "salsas" | "postres"
+  firedHace: number
+  objetivo: number
+  items: Item[]
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-export async function getEstados(): Promise<Estado[]> {
-  await sleep(200)
-  return [
-    { id: "pendiente", nombre: "Pendiente" },
-    { id: "preparacion", nombre: "En preparacion" },
-    { id: "servida", nombre: "Servida" },
-    { id: "cancelada", nombre: "Cancelada" },
-  ]
-}
-
 export async function getComandas(): Promise<Comanda[]> {
   await sleep(300)
   return [
-    { id: "1", mesa: "Mesa 7", items: ["Bife de chorizo", "Provoleta", "Malbec x2"], total: "$ 22.700", estadoId: "pendiente" },
-    { id: "2", mesa: "Mesa 3", items: ["Milanesa napo", "Limonada"], total: "$ 12.200", estadoId: "pendiente" },
-    { id: "3", mesa: "Delivery #418", items: ["Empanadas x6", "Flan casero"], total: "$ 11.100", estadoId: "pendiente" },
-    { id: "4", mesa: "Salon 12", items: ["Asado de tira", "Rabas", "Agua x2"], total: "$ 24.500", estadoId: "pendiente" },
-    { id: "5", mesa: "Barra 1", items: ["Sorrentinos", "Cerveza pinta"], total: "$ 11.700", estadoId: "pendiente" },
-    { id: "6", mesa: "Mesa 10", items: ["Pollo al horno", "Bruschettas"], total: "$ 12.800", estadoId: "pendiente" },
-    { id: "7", mesa: "Mesa 5", items: ["Ravioles", "Agua con gas"], total: "$ 9.900", estadoId: "preparacion" },
-    { id: "8", mesa: "Salon 9", items: ["Bife x2", "Provoleta", "Vino botella"], total: "$ 38.400", estadoId: "preparacion" },
-    { id: "9", mesa: "Delivery #421", items: ["Milanesa napo", "Gaseosa"], total: "$ 11.500", estadoId: "preparacion" },
-    { id: "10", mesa: "Mesa 8", items: ["Bondiola braseada", "Tabla de fiambres"], total: "$ 18.900", estadoId: "preparacion" },
-    { id: "11", mesa: "Barra 2", items: ["Risotto de hongos", "Limonada"], total: "$ 12.500", estadoId: "preparacion" },
-    { id: "12", mesa: "Mesa 4", items: ["Mollejas", "Asado de tira", "Malbec copa"], total: "$ 23.100", estadoId: "preparacion" },
-    { id: "13", mesa: "Mesa 6", items: ["Volcan de chocolate", "Cafe x2"], total: "$ 6.300", estadoId: "servida" },
-    { id: "14", mesa: "Salon 14", items: ["Sorrentinos x2", "Agua saborizada"], total: "$ 19.100", estadoId: "servida" },
-    { id: "15", mesa: "Mesa 1", items: ["Milanesa napo", "Flan"], total: "$ 13.300", estadoId: "servida" },
-    { id: "16", mesa: "Barra 3", items: ["Tiramisu", "Cafe"], total: "$ 5.600", estadoId: "servida" },
-    { id: "17", mesa: "Mesa 2", items: ["Provoleta", "Empanadas x3", "Cerveza"], total: "$ 10.900", estadoId: "servida" },
-    { id: "18", mesa: "Mesa 9", items: ["Ojo de bife", "Papas"], total: "$ 15.400", estadoId: "cancelada" },
-    { id: "19", mesa: "Delivery #417", items: ["Salmon grillado"], total: "$ 14.200", estadoId: "cancelada" },
-    { id: "20", mesa: "Salon 10", items: ["Ravioles", "Vino copa"], total: "$ 11.600", estadoId: "cancelada" },
+    { id: "1", mesa: "14", mozo: "Ivo", estado: "en cocina", estacion: "parrilla", firedHace: 723, objetivo: 720, items: [
+      { qty: 2, nombre: "Bife de chorizo", mod: "uno jugoso, uno a punto" },
+      { qty: 1, nombre: "Provoleta" },
+      { qty: 2, nombre: "Papas rusticas" },
+    ] },
+    { id: "2", mesa: "07", mozo: "Nadia", estado: "en cocina", estacion: "parrilla", firedHace: 512, objetivo: 720, items: [
+      { qty: 1, nombre: "Entraña", mod: "sin sal" },
+      { qty: 1, nombre: "Ensalada de estacion" },
+    ] },
+    { id: "3", mesa: "22", mozo: "Ivo", estado: "en cocina", estacion: "salsas", firedHace: 388, objetivo: 600, items: [
+      { qty: 3, nombre: "Sorrentinos de osobuco" },
+      { qty: 1, nombre: "Ñoquis", mod: "sin manteca" },
+    ] },
+    { id: "4", mesa: "03", mozo: "Ruben", estado: "en cocina", estacion: "fria", firedHace: 141, objetivo: 300, items: [
+      { qty: 2, nombre: "Burrata de la casa" },
+      { qty: 1, nombre: "Tartar de trucha", mod: "sin cebolla" },
+    ] },
+    { id: "5", mesa: "18", mozo: "Nadia", estado: "en cocina", estacion: "parrilla", firedHace: 61, objetivo: 720, items: [
+      { qty: 4, nombre: "Asado de tira" },
+      { qty: 2, nombre: "Chorizo criollo" },
+    ] },
+    { id: "6", mesa: "11", mozo: "Ivo", estado: "emplatando", estacion: "salsas", firedHace: 640, objetivo: 600, items: [
+      { qty: 2, nombre: "Risotto de hongos" },
+      { qty: 1, nombre: "Pesca del dia", mod: "coccion media" },
+    ] },
+    { id: "7", mesa: "09", mozo: "Ruben", estado: "emplatando", estacion: "fria", firedHace: 274, objetivo: 300, items: [
+      { qty: 3, nombre: "Rabas" },
+      { qty: 1, nombre: "Ceviche de la casa" },
+    ] },
+    { id: "8", mesa: "25", mozo: "Nadia", estado: "emplatando", estacion: "parrilla", firedHace: 810, objetivo: 720, items: [
+      { qty: 1, nombre: "Ojo de bife", mod: "bien cocido" },
+      { qty: 1, nombre: "Batatas al romero" },
+    ] },
+    { id: "9", mesa: "02", mozo: "Ivo", estado: "listo", estacion: "postres", firedHace: 205, objetivo: 240, items: [
+      { qty: 2, nombre: "Flan casero", mod: "doble dulce" },
+    ] },
+    { id: "10", mesa: "16", mozo: "Ruben", estado: "listo", estacion: "fria", firedHace: 190, objetivo: 300, items: [
+      { qty: 2, nombre: "Empanadas de carne" },
+      { qty: 1, nombre: "Humita" },
+    ] },
+    { id: "11", mesa: "05", mozo: "Nadia", estado: "listo", estacion: "postres", firedHace: 168, objetivo: 240, items: [
+      { qty: 1, nombre: "Volcan de chocolate" },
+      { qty: 2, nombre: "Helado artesanal" },
+    ] },
+    { id: "12", mesa: "31", mozo: "Ivo", estado: "listo", estacion: "salsas", firedHace: 402, objetivo: 600, items: [
+      { qty: 2, nombre: "Cazuela de mariscos" },
+    ] },
   ]
+}
+
+// Firma estable: contra el backend real esto es un UPDATE + evento realtime.
+export async function avanzarComanda(_id: string): Promise<void> {
+  await sleep(120)
 }

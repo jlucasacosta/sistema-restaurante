@@ -1,19 +1,14 @@
 "use client"
 import { useEffect, useState } from "react"
-import { getContacts, type Contact } from "./api"
+import { getContacts, type Comensal } from "./api"
 
-// Mapas literales: Tailwind necesita ver la clase completa en el fuente.
-const badge: Record<Contact["status"], string> = {
+// Galeria de fichas, no tabla densa (esa es de inmobiliaria).
+// El comensal se reconoce por su plato, no por su fila.
+
+const tipoChip: Record<Comensal["tipo"], string> = {
+  vip: "bg-accent/15 text-accent",
   frecuente: "bg-success/15 text-success",
   nuevo: "bg-info/15 text-info",
-  vip: "bg-warning/15 text-warning",
-  inactivo: "bg-danger/15 text-danger",
-}
-
-const avatar: Record<Contact["status"], string> = {
-  frecuente: "bg-success/15 text-success",
-  nuevo: "bg-info/15 text-info",
-  vip: "bg-warning/15 text-warning",
   inactivo: "bg-danger/15 text-danger",
 }
 
@@ -25,66 +20,68 @@ const iniciales = (n: string) =>
     .join("")
 
 export function ContactosPage() {
-  const [rows, setRows] = useState<Contact[]>([])
+  const [rows, setRows] = useState<Comensal[]>([])
+  const [filtro, setFiltro] = useState<Comensal["tipo"] | "todos">("todos")
+
   useEffect(() => {
     getContacts().then(setRows)
   }, [])
 
-  const vip = rows.filter((r) => r.status === "vip").length
+  const visibles = filtro === "todos" ? rows : rows.filter((r) => r.tipo === filtro)
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="font-heading text-2xl font-semibold">Comensales</h1>
-        <div className="flex gap-2">
-          <span className="rounded-lg bg-surface px-3 py-1.5 text-sm shadow-sm">
-            <span className="font-semibold">{rows.length}</span> <span className="text-muted">en la base</span>
-          </span>
-          <span className="rounded-lg bg-surface px-3 py-1.5 text-sm shadow-sm">
-            <span className="font-semibold text-warning">{vip}</span> <span className="text-muted">VIP</span>
-          </span>
+        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Comensales</h1>
+        <div className="flex flex-wrap gap-2">
+          {(["todos", "vip", "frecuente", "nuevo", "inactivo"] as const).map((t) => (
+            <button
+              key={t}
+              onClick={() => setFiltro(t)}
+              className={
+                "chip transition-colors " +
+                (filtro === t ? "bg-primary text-bg" : "bg-subtle text-muted hover:text-fg")
+              }
+            >
+              {t}
+            </button>
+          ))}
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-xl bg-surface shadow-card">
-        <table className="w-full text-sm">
-          <thead className="border-b border-border text-left text-muted">
-            <tr>
-              <th className="p-4 font-medium">Nombre</th>
-              <th className="p-4 font-medium">Telefono</th>
-              <th className="p-4 font-medium">Email</th>
-              <th className="p-4 font-medium">Visitas</th>
-              <th className="p-4 font-medium">Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.id} className="border-b border-border transition-colors last:border-0 hover:bg-subtle">
-                <td className="p-4">
-                  <span className="flex items-center gap-3">
-                    <span
-                      className={
-                        "flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold " +
-                        avatar[r.status]
-                      }
-                    >
-                      {iniciales(r.name)}
-                    </span>
-                    <span className="font-medium">{r.name}</span>
-                  </span>
-                </td>
-                <td className="p-4 text-muted">{r.phone}</td>
-                <td className="p-4 text-muted">{r.email}</td>
-                <td className="p-4 text-muted">{r.visitas}</td>
-                <td className="p-4">
-                  <span className={"whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs " + badge[r.status]}>
-                    {r.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        {visibles.map((c) => (
+          <article key={c.id} className="surface-card p-5">
+            <div className="flex items-start gap-4">
+              <span
+                className={
+                  "flex h-14 w-14 shrink-0 items-center justify-center rounded-full font-heading text-lg font-bold " +
+                  tipoChip[c.tipo]
+                }
+              >
+                {iniciales(c.name)}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate font-heading text-lg font-bold">{c.name}</p>
+                <p className="truncate text-xs text-muted">{c.email}</p>
+                <p className="text-xs text-muted">{c.phone}</p>
+              </div>
+              <span className={"chip " + tipoChip[c.tipo]}>{c.tipo}</span>
+            </div>
+
+            <div className="mt-5 flex items-end justify-between border-t border-border pt-4">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-muted">Su plato</p>
+                <p className="text-sm font-medium">{c.favorito}</p>
+                <p className="mt-1 text-xs text-muted">ultima visita {c.ultima}</p>
+              </div>
+              <div className="text-right">
+                <p className="mesa-num text-4xl text-primary">{c.visitas}</p>
+                <p className="text-[10px] uppercase tracking-widest text-muted">visitas</p>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   )

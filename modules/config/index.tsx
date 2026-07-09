@@ -1,6 +1,9 @@
 import { theme } from "@/shell/theme"
 
-function Row({ label, value, swatch }: { label: string; value: string; swatch?: boolean }) {
+// paneles-de-seccion: tarjetas agrupadas. NO acordeon (ese arquetipo ya lo usa Menu:
+// dentro de un mismo sistema tampoco se repite un arquetipo).
+
+function Fila({ label, value, swatch }: { label: string; value: string; swatch?: boolean }) {
   return (
     <div className="flex items-center justify-between">
       <span className="text-sm text-muted">{label}</span>
@@ -12,47 +15,68 @@ function Row({ label, value, swatch }: { label: string; value: string; swatch?: 
   )
 }
 
+function Panel({ titulo, children }: { titulo: string; children: React.ReactNode }) {
+  return (
+    <section className="surface-card space-y-4 p-6">
+      <h2 className="font-heading text-sm font-bold uppercase tracking-widest">{titulo}</h2>
+      {children}
+    </section>
+  )
+}
+
 export function ConfigPage() {
   const c = theme.colors
   return (
-    <div className="space-y-8">
-      <h1 className="font-heading text-2xl font-semibold">Configuracion</h1>
+    <div className="space-y-6">
+      <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Configuracion</h1>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="space-y-4 rounded-xl bg-surface p-6 shadow-card">
-          <h2 className="font-heading text-base font-semibold">Marca</h2>
-          <Row label="Nombre" value={theme.brand.name} />
-          <Row label="Modo" value={theme.mode} />
-          <Row label="Tipografia" value={theme.font.heading} />
-          <Row label="Bordes" value={theme.radius} />
-          <Row label="Densidad" value={theme.density} />
-        </div>
+      <div className="grid gap-5 lg:grid-cols-2">
+        <Panel titulo="Marca">
+          <Fila label="Nombre" value={theme.brand.name} />
+          <Fila label="Titulos" value={theme.font.heading} />
+          <Fila label="Cuerpo" value={theme.font.body} />
+        </Panel>
 
-        <div className="space-y-4 rounded-xl bg-surface p-6 shadow-card">
-          <h2 className="font-heading text-base font-semibold">Paleta</h2>
-          <Row label="Primario" value={c.primary} swatch />
-          <Row label="Acento" value={c.accent} swatch />
-          <Row label="Exito" value={c.success} swatch />
-          <Row label="Alerta" value={c.warning} swatch />
-          <Row label="Error" value={c.danger} swatch />
-          <Row label="Info" value={c.info} swatch />
-        </div>
+        <Panel titulo="Forma">
+          <Fila label="Modo" value={theme.mode} />
+          <Fila label="Navegacion" value={theme.nav} />
+          <Fila label="Elevacion" value={theme.elevation} />
+          <Fila label="Bordes" value={theme.radius} />
+          <Fila label="Densidad" value={theme.density} />
+          <Fila label="Chips" value={theme.badge} />
+        </Panel>
+
+        <Panel titulo="Paleta">
+          <Fila label="Brasa (primario)" value={c.primary} swatch />
+          <Fila label="Glow (acento)" value={c.accent} swatch />
+          <Fila label="Listo" value={c.success} swatch />
+          <Fila label="Atencion" value={c.warning} swatch />
+          <Fila label="Demorado" value={c.danger} swatch />
+          <Fila label="Info" value={c.info} swatch />
+        </Panel>
+
+        <Panel titulo="Cocina">
+          <Fila label="Umbral ambar" value={`${theme.fuego.ok} min`} />
+          <Fila label="Umbral demorado" value={`${theme.fuego.demora} min`} />
+          <p className="pt-2 text-xs text-muted">
+            El Riel del Pase envejece con estos dos numeros. Cambialos y toda la cocina cambia de temperatura.
+          </p>
+        </Panel>
       </div>
 
-      <div className="rounded-xl bg-surface p-6 shadow-card">
-        <h2 className="mb-4 font-heading text-base font-semibold">Estados</h2>
+      <Panel titulo="Estados">
         <div className="flex flex-wrap gap-2">
-          <span className="rounded-full bg-success/15 px-2.5 py-0.5 text-xs text-success">exito</span>
-          <span className="rounded-full bg-warning/15 px-2.5 py-0.5 text-xs text-warning">alerta</span>
-          <span className="rounded-full bg-danger/15 px-2.5 py-0.5 text-xs text-danger">error</span>
-          <span className="rounded-full bg-info/15 px-2.5 py-0.5 text-xs text-info">info</span>
-          <span className="rounded-full bg-primary/15 px-2.5 py-0.5 text-xs text-primary">primario</span>
-          <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-xs text-accent">acento</span>
+          <span className="chip bg-success/15 text-success">listo</span>
+          <span className="chip bg-warning/15 text-warning">atencion</span>
+          <span className="chip bg-danger/15 text-danger">demorado</span>
+          <span className="chip bg-info/15 text-info">reservada</span>
+          <span className="chip bg-primary/15 text-primary">en fuego</span>
+          <span className="chip bg-accent/15 text-accent">vip</span>
         </div>
-        <p className="pt-4 text-xs text-muted">
+        <p className="pt-2 text-xs text-muted">
           Todo esto sale de shell/theme.ts. Cambias un archivo y muta el sistema entero.
         </p>
-      </div>
+      </Panel>
     </div>
   )
 }

@@ -1,48 +1,60 @@
-// PATRON MOCK. Misma firma que la query real. Reetiquetado para restaurante.
-export type Tone = "primary" | "accent" | "success" | "warning" | "danger" | "info"
-export type Kpi = { label: string; value: string; delta: number; tone: Tone }
-export type SalesPoint = { label: string; value: number }
-export type Activity = { id: string; text: string; time: string; tone: Tone }
+// PATRON MOCK. Misma firma que la query real. Ver BACKEND.md.
+// El dashboard RESUME la noche, no la opera. Arranca siempre en "este turno":
+// no hay selector de periodo (ver DISENO.md §8, componente eliminado).
+
+// El ticker corre: la cocina vive el ahora.
+export type TickerItem = { id: string; label: string; valor: string; tono: "primary" | "accent" | "success" | "warning" | "danger" | "info" }
+// Curva de servicio: cubiertos por hora.
+export type HoraPunto = { hora: string; cubiertos: number }
+// Cada orden viva en el Riel del Pase.
+export type OrdenPase = { id: string; mesa: string; firedHace: number; objetivo: number; resumen: string }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-export async function getKpis(): Promise<Kpi[]> {
-  await sleep(300)
+export async function getTicker(): Promise<TickerItem[]> {
+  await sleep(250)
   return [
-    { label: "Reservas hoy", value: "34", delta: 9, tone: "primary" },
-    { label: "Cubiertos hoy", value: "112", delta: 15, tone: "info" },
-    { label: "Ticket promedio", value: "$ 8.400", delta: 6, tone: "success" },
-    { label: "No-shows", value: "4", delta: -2, tone: "danger" },
+    { id: "1", label: "Cubiertos", valor: "128", tono: "primary" },
+    { id: "2", label: "Ticket promedio", valor: "$ 32.400", tono: "success" },
+    { id: "3", label: "Rotacion de mesa", valor: "74 min", tono: "info" },
+    { id: "4", label: "Tickets abiertos", valor: "12", tono: "accent" },
+    { id: "5", label: "Demorados", valor: "2", tono: "danger" },
+    { id: "6", label: "Mesas ocupadas", valor: "13 / 20", tono: "warning" },
+    { id: "7", label: "Platos agotados", valor: "3", tono: "danger" },
+    { id: "8", label: "Reservas pendientes", valor: "6", tono: "info" },
   ]
 }
 
-export async function getSales(): Promise<SalesPoint[]> {
+// El hero-number: el tiempo promedio de fuego de la noche.
+export async function getTiempoFuego(): Promise<{ promedio: string; objetivo: string; delta: number }> {
+  await sleep(200)
+  return { promedio: "9:12", objetivo: "8:00", delta: 14 }
+}
+
+export async function getCurvaServicio(): Promise<HoraPunto[]> {
   await sleep(300)
   return [
-    { label: "Lun", value: 62 },
-    { label: "Mar", value: 74 },
-    { label: "Mie", value: 58 },
-    { label: "Jue", value: 96 },
-    { label: "Vie", value: 138 },
-    { label: "Sab", value: 152 },
-    { label: "Dom", value: 121 },
+    { hora: "19", cubiertos: 8 },
+    { hora: "20", cubiertos: 24 },
+    { hora: "21", cubiertos: 47 },
+    { hora: "22", cubiertos: 31 },
+    { hora: "23", cubiertos: 14 },
+    { hora: "00", cubiertos: 4 },
   ]
 }
 
-export async function getActivity(): Promise<Activity[]> {
+export async function getPase(): Promise<OrdenPase[]> {
   await sleep(300)
   return [
-    { id: "1", text: "Nueva reserva: mesa para 4 a las 21:30", time: "hace 3 min", tone: "success" },
-    { id: "2", text: "Comanda lista: Milanesa napolitana (Mesa 7)", time: "hace 12 min", tone: "info" },
-    { id: "3", text: "Mesa 3 pidio la cuenta, mozo avisado", time: "hace 18 min", tone: "primary" },
-    { id: "4", text: "Se agoto Ojo de bife: sacado de la carta", time: "hace 26 min", tone: "warning" },
-    { id: "5", text: "No-show: reserva de Valentin Ocampo (2 pers)", time: "hace 34 min", tone: "danger" },
-    { id: "6", text: "Pedido de delivery confirmado: $ 6.200", time: "hace 40 min", tone: "success" },
-    { id: "7", text: "Comanda cancelada: Mesa 5 cambio el pedido", time: "hace 55 min", tone: "danger" },
-    { id: "8", text: "Turno de las 22:00 completo (18/18 mesas)", time: "hace 1 h", tone: "info" },
-    { id: "9", text: "Reseña nueva: 5 estrellas por la parrilla", time: "hace 2 h", tone: "accent" },
-    { id: "10", text: "Stock bajo: quedan 3 botellas de Malbec de la casa", time: "hace 3 h", tone: "warning" },
-    { id: "11", text: "Reserva confirmada: cumpleaños de 8 el viernes", time: "hace 4 h", tone: "success" },
-    { id: "12", text: "Cocina abrio el turno noche con 6 comandas en cola", time: "hace 5 h", tone: "primary" },
+    { id: "1", mesa: "25", firedHace: 810, objetivo: 720, resumen: "Ojo de bife · Batatas" },
+    { id: "2", mesa: "14", firedHace: 723, objetivo: 720, resumen: "2 Bife chorizo · Provoleta" },
+    { id: "3", mesa: "11", firedHace: 640, objetivo: 600, resumen: "2 Risotto · Pesca del dia" },
+    { id: "4", mesa: "07", firedHace: 512, objetivo: 720, resumen: "Entraña · Ensalada" },
+    { id: "5", mesa: "31", firedHace: 402, objetivo: 600, resumen: "2 Cazuela de mariscos" },
+    { id: "6", mesa: "22", firedHace: 388, objetivo: 600, resumen: "3 Sorrentinos · Ñoquis" },
+    { id: "7", mesa: "09", firedHace: 274, objetivo: 300, resumen: "3 Rabas · Ceviche" },
+    { id: "8", mesa: "02", firedHace: 205, objetivo: 240, resumen: "2 Flan casero" },
+    { id: "9", mesa: "03", firedHace: 141, objetivo: 300, resumen: "2 Burrata · Tartar" },
+    { id: "10", mesa: "18", firedHace: 61, objetivo: 720, resumen: "4 Asado de tira · 2 Chorizo" },
   ]
 }
