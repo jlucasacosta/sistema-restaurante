@@ -59,7 +59,7 @@ export function ConfigPage() {
           <Fila label="Umbral ambar" value={`${theme.fuego.ok} min`} />
           <Fila label="Umbral demorado" value={`${theme.fuego.demora} min`} />
           <p className="pt-2 text-xs text-muted">
-            El Riel del Pase envejece con estos dos numeros. Cambialos y toda la cocina cambia de temperatura.
+            Las Comandas en curso usan estos dos numeros para marcar los tiempos. Cambialos y se ajusta toda la cocina.
           </p>
         </Panel>
       </div>
@@ -70,7 +70,7 @@ export function ConfigPage() {
           <span className="chip bg-warning/15 text-warning">atencion</span>
           <span className="chip bg-danger/15 text-danger">demorado</span>
           <span className="chip bg-info/15 text-info">reservada</span>
-          <span className="chip bg-primary/15 text-primary">en fuego</span>
+          <span className="chip bg-primary/15 text-primary">en preparacion</span>
           <span className="chip bg-accent/15 text-accent">vip</span>
         </div>
         <p className="pt-2 text-xs text-muted">

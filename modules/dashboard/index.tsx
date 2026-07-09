@@ -83,7 +83,7 @@ export function DashboardPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Turno de esta noche</h1>
+        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Panel general</h1>
         <span className="chip bg-primary/15 text-primary">en vivo</span>
       </div>
 
@@ -92,8 +92,8 @@ export function DashboardPage() {
       {/* COMPONENTE ESTRELLA: el Riel del Pase. La mas vieja, a la izquierda. */}
       <section className="surface-card p-5">
         <header className="mb-4 flex items-baseline justify-between">
-          <h2 className="font-heading text-sm font-bold uppercase tracking-widest">Riel del pase</h2>
-          <span className="text-xs text-muted">la mas vieja primero</span>
+          <h2 className="font-heading text-sm font-bold uppercase tracking-widest">Comandas en curso</h2>
+          <span className="text-xs text-muted">la mas antigua primero</span>
         </header>
         <div className="flex gap-4 overflow-x-auto pb-2">
           {ordenado.map((o) => (
@@ -105,7 +105,7 @@ export function DashboardPage() {
       <div className="grid gap-5 lg:grid-cols-3">
         {/* Curva de servicio: barras por hora. El rush se ve, no se calcula. */}
         <div className="surface-card p-6 lg:col-span-2">
-          <h2 className="mb-6 font-heading text-sm font-bold uppercase tracking-widest">Curva del servicio</h2>
+          <h2 className="mb-6 font-heading text-sm font-bold uppercase tracking-widest">Servicio por hora</h2>
           <div className="flex h-44 gap-4">
             {curva.map((c) => (
               <div key={c.hora} className="group flex h-full flex-1 flex-col items-center gap-2">
@@ -124,7 +124,7 @@ export function DashboardPage() {
 
         {/* hero-number: el tiempo de fuego de la noche. Un numero, no cuatro tiles. */}
         <div className="surface-card flex flex-col justify-center p-6">
-          <h2 className="font-heading text-sm font-bold uppercase tracking-widest text-muted">Tiempo de fuego</h2>
+          <h2 className="font-heading text-sm font-bold uppercase tracking-widest text-muted">Tiempo de preparacion</h2>
           {fuego && (
             <>
               <p className="mesa-num mt-4 text-7xl text-accent">{fuego.promedio}</p>

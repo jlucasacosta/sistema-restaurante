@@ -42,7 +42,7 @@ export function ConversacionesPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Bandeja</h1>
+      <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Conversaciones</h1>
 
       <div className="flex h-[calc(100vh-9rem)] gap-5">
         <div className="surface-card w-80 shrink-0 overflow-y-auto p-2">

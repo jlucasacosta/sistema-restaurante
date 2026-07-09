@@ -32,7 +32,7 @@ export function ContactosPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Comensales</h1>
+        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Contactos</h1>
         <div className="flex flex-wrap gap-2">
           {(["todos", "vip", "frecuente", "nuevo", "inactivo"] as const).map((t) => (
             <button
@@ -71,7 +71,7 @@ export function ContactosPage() {
 
             <div className="mt-5 flex items-end justify-between border-t border-border pt-4">
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-muted">Su plato</p>
+                <p className="text-[10px] uppercase tracking-widest text-muted">Plato favorito</p>
                 <p className="text-sm font-medium">{c.favorito}</p>
                 <p className="mt-1 text-xs text-muted">ultima visita {c.ultima}</p>
               </div>

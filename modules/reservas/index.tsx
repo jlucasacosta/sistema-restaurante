@@ -42,7 +42,7 @@ export function ReservasPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Sala</h1>
+        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Reservas</h1>
         <div className="flex flex-wrap gap-2">
           {(["sentada", "por liberar", "reservada", "libre"] as Mesa["estado"][]).map((e) => (
             <span key={e} className="chip bg-subtle text-fg">
@@ -59,7 +59,7 @@ export function ReservasPage() {
         <div className="surface-card relative min-h-[34rem] overflow-hidden p-6 lg:col-span-3">
           <span className="absolute left-6 top-4 text-[10px] uppercase tracking-[0.3em] text-muted">Salon principal</span>
           <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-md border border-dashed border-border px-3 py-1 text-[10px] uppercase tracking-widest text-muted">
-            Cocina / Pase
+            Cocina
           </span>
 
           {mesas.map((m) => (

@@ -109,7 +109,7 @@ export function ComandasPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Cocina</h1>
+        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Comandas</h1>
         <div className="flex items-center gap-2">
           <span className="chip bg-subtle text-muted">{rows.length} tickets abiertos</span>
           {demoradas > 0 && <span className="chip bg-danger/15 text-danger">{demoradas} demorados</span>}

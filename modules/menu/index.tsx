@@ -29,7 +29,7 @@ export function MenuPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Carta</h1>
+        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Menu</h1>
         {agotados > 0 && <span className="chip bg-danger/15 text-danger">{agotados} platos agotados</span>}
       </div>
 

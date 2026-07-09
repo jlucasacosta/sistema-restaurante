@@ -70,7 +70,7 @@ Dos manos distintas, dos apuros distintos, una sola operación:
 | **comandas** (manda) | `kds-board` | Columnas por estado: EN COCINA / EMPLATANDO / LISTO. Tickets `raised` que migran de columna. Cada ticket: número de mesa gigante (media tarjeta), cronómetro MM:SS grande, ítems + modificaciones, borde 6px que late. Primero se ve la carga por estación. 8-10 tickets simultáneos = cocina viva. |
 | **reservas** | `plano-mesas` | SVG de la sala; cada mesa un polígono coloreado por estado (libre=carbón, sentada=brasa, por-liberar=ají). Turn-timer por mesa. Primero: ocupación de un vistazo + reconstrucción de la topología física del salón. |
 | **menu** | `acordeon` | La carta ES secciones colapsables (entradas / principales / postres). Cada fila un plato; precio destacado (Archivo bold, o Bebas si se activa el golpe). Recontextualizado del vertical, no la tabla de nadie. |
-| **dashboard** | `hero-board` (Riel del Pase + ticker) | No opera, resume la noche. Hero horizontal = Riel del Pase de órdenes activas. Arriba: ticker vivo (cubiertos, ticket promedio, rotación) + barras por hora (curva de rush). Anillo/hero-number de tiempo promedio de fuego. Sin selector de período. |
+| **dashboard** | `hero-board` (Comandas en curso + ticker) | No opera, resume la noche. Hero horizontal = Comandas en curso de órdenes activas. Arriba: ticker vivo (cubiertos, ticket promedio, rotación) + barras por hora (curva de rush). Anillo/hero-number de tiempo promedio de fuego. Sin selector de período. |
 | **conversaciones** | `master-detail` | Bandeja de pedidos/consultas entrantes (reservas por WhatsApp, delivery). Lista de hilos a la izquierda, conversación abierta a la derecha. Estados en pill. |
 | **contactos** | `galeria` | Fichas de comensales frecuentes / VIP: card con avatar, visitas, plato favorito, última reserva. Distinto de la tabla-densa de inmobiliaria. |
 | **config** | `paneles-de-seccion` | Ajustes en tarjetas agrupadas (marca, sala, integraciones, usuarios). Layout de secciones simples — NO acordeon (ya lo usa Menú), para no repetir arquetipo dentro del mismo sistema. |
@@ -87,7 +87,7 @@ Dos manos distintas, dos apuros distintos, una sola operación:
 
 ---
 
-## 7. Componente estrella — "Riel del Pase"
+## 7. Componente estrella — "Comandas en curso"
 
 Hero horizontal en el dashboard. Cada orden activa es una tarjeta-ticket ordenada por tiempo de disparo.
 
@@ -96,8 +96,8 @@ Hero horizontal en el dashboard. Cada orden activa es una tarjeta-ticket ordenad
 - Cada tarjeta-ticket (`raised`, `radius=round`): número de mesa (Archivo bold grande, o Bebas gigante), lista de ítems, cronómetro MM:SS que corre en vivo.
 - **Heat-aging:** el borde (6px) se calienta por minutos de prep — `ember → amber → rojo-ají` a medida que envejece. Umbrales desde `theme.ts` (ej. 0-6min ok, 6-12min ámbar, >12min rojo latiendo). El rojo pulsa (animación de "late").
 - **Dot-timer:** un anillo/dot que se rellena proporcional al tiempo transcurrido vs. objetivo del plato.
-- Al marcar "salió", la tarjeta **se desliza fuera del riel** (animación de salida a la derecha).
-- **Todo el color sale de `theme.ts`.** Nadie más en la colección tiene un riel que envejece por temperatura.
+- Al marcar "salió", la tarjeta **se desliza fuera del panel** (animación de salida a la derecha).
+- **Todo el color sale de `theme.ts`.** Nadie más en la colección tiene un panel que envejece por temperatura.
 
 ---
 
@@ -122,10 +122,10 @@ mode dark≠light · nav rail≠sidebar · elevation raised≠outlined · radius
 - 2 arquetipos únicos que nadie más usa: `kds-board` y `plano-mesas`.
 - Combo KPI+gráfico inédito: `ticker` + `barras-verticales` (inmobiliaria usa barra-metas + heatmap).
 - Iconos `lucide-grueso` ≠ `icon-chip` del vecino.
-- Estrella propia: "Riel del Pase" con heat-aging amber→rojo (nadie más tiene reloj vivo que envejece por temperatura).
+- Estrella propia: "Comandas en curso" con heat-aging amber→rojo (nadie más tiene reloj vivo que envejece por temperatura).
 - Componente por defecto eliminado: date-range/period picker.
 
-Dos dashboards lado a lado, sin leer texto: inmobiliaria = light, sharp, mapa de pins; restaurante = dark, round, Riel del Pase + ticker corriendo. Se distinguen a un metro.
+Dos dashboards lado a lado, sin leer texto: inmobiliaria = light, sharp, mapa de pins; restaurante = dark, round, Comandas en curso + ticker corriendo. Se distinguen a un metro.
 
 ---
 
