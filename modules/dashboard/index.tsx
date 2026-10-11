@@ -18,12 +18,22 @@ const tono: Record<TickerItem["tono"], string> = {
 function Ticker({ items }: { items: TickerItem[] }) {
   if (!items.length) return <div className="h-16 animate-pulse rounded-xl bg-subtle" />
   // Se duplica la tira para que el loop sea continuo.
+  // La segunda copia es solo visual: oculta para lectores y con reduced-motion.
   const tira = [...items, ...items]
   return (
-    <div className="ticker-mask surface-card overflow-hidden py-4">
+    <div
+      role="region"
+      aria-label="Indicadores de la noche"
+      tabIndex={0}
+      className="ticker-mask surface-card overflow-hidden py-4 focus-visible:-outline-offset-2"
+    >
       <div className="ticker-track">
         {tira.map((t, i) => (
-          <div key={i} className="flex shrink-0 items-baseline gap-3 border-r border-border px-8">
+          <div
+            key={i}
+            aria-hidden={i >= items.length ? true : undefined}
+            className={"flex shrink-0 items-baseline gap-3 border-r border-border px-8" + (i >= items.length ? " ticker-dup" : "")}
+          >
             <span className="text-xs uppercase tracking-widest text-muted">{t.label}</span>
             <span className={"mesa-num text-3xl " + tono[t.tono]}>{t.valor}</span>
           </div>
@@ -84,7 +94,7 @@ export function DashboardPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Panel general</h1>
-        <span className="chip bg-primary/15 text-primary">en vivo</span>
+        <span className="chip bg-primary/15 text-primary-ink">en vivo</span>
       </div>
 
       <Ticker items={items} />
@@ -95,7 +105,12 @@ export function DashboardPage() {
           <h2 className="font-heading text-sm font-bold uppercase tracking-widest">Comandas en curso</h2>
           <span className="text-xs text-muted">la mas antigua primero</span>
         </header>
-        <div className="flex gap-4 overflow-x-auto pb-2">
+        <div
+          role="region"
+          aria-label="Comandas en curso, la mas antigua primero"
+          tabIndex={0}
+          className="flex gap-4 overflow-x-auto pb-2"
+        >
           {ordenado.map((o) => (
             <TarjetaPase key={o.id} o={o} tick={tick} />
           ))}
@@ -106,7 +121,7 @@ export function DashboardPage() {
         {/* Curva de servicio: barras por hora. El rush se ve, no se calcula. */}
         <div className="surface-card p-6 lg:col-span-2">
           <h2 className="mb-6 font-heading text-sm font-bold uppercase tracking-widest">Servicio por hora</h2>
-          <div className="flex h-44 gap-4">
+          <div role="group" aria-label="Cubiertos por hora" className="flex h-44 gap-4">
             {curva.map((c) => (
               <div key={c.hora} className="group flex h-full flex-1 flex-col items-center gap-2">
                 <span className="mesa-num text-sm text-muted">{c.cubiertos}</span>
@@ -131,7 +146,7 @@ export function DashboardPage() {
               <p className="mt-2 text-sm text-muted">
                 objetivo <span className="mesa-num text-base text-fg">{fuego.objetivo}</span>
               </p>
-              <span className="chip mt-4 self-start bg-danger/15 text-danger">
+              <span className="chip mt-4 self-start bg-danger/15 text-danger-ink">
                 {fuego.delta}% por encima del objetivo
               </span>
             </>

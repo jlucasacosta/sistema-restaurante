@@ -17,7 +17,7 @@ const COLUMNAS: { estado: Estado; titulo: string; icon: typeof Flame }[] = [
 ]
 
 const estacionChip: Record<Comanda["estacion"], string> = {
-  parrilla: "bg-primary/15 text-primary",
+  parrilla: "bg-primary/15 text-primary-ink",
   fria: "bg-info/15 text-info",
   salsas: "bg-warning/15 text-warning",
   postres: "bg-success/15 text-success",
@@ -35,7 +35,8 @@ function Ticket({ c, tick, onAvanzar }: { c: Comanda; tick: number; onAvanzar: (
   }
 
   return (
-    <div
+    <article
+      aria-label={"Mesa " + c.mesa}
       className={
         "surface-card border-l-[6px] p-4 " +
         bordeDeFuego[nivel] +
@@ -76,12 +77,13 @@ function Ticket({ c, tick, onAvanzar }: { c: Comanda; tick: number; onAvanzar: (
         <span className="text-xs text-muted">{c.mozo}</span>
         <button
           onClick={salir}
-          className="rounded-lg bg-primary px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-bg transition-opacity hover:opacity-90"
+          aria-label={(c.estado === "listo" ? "Salio" : "Avanzar") + " mesa " + c.mesa}
+          className="min-h-11 rounded-lg bg-primary px-4 py-2 text-xs font-bold uppercase tracking-wide text-bg transition-opacity hover:opacity-90"
         >
           {c.estado === "listo" ? "Salio" : "Avanzar"}
         </button>
       </div>
-    </div>
+    </article>
   )
 }
 
@@ -112,7 +114,7 @@ export function ComandasPage() {
         <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Comandas</h1>
         <div className="flex items-center gap-2">
           <span className="chip bg-subtle text-muted">{rows.length} tickets abiertos</span>
-          {demoradas > 0 && <span className="chip bg-danger/15 text-danger">{demoradas} demorados</span>}
+          {demoradas > 0 && <span className="chip bg-danger/15 text-danger-ink">{demoradas} demorados</span>}
         </div>
       </div>
 

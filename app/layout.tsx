@@ -3,6 +3,7 @@ import type { ReactNode, CSSProperties } from "react"
 import { theme } from "@/shell/theme"
 import { fontClass } from "@/shell/fonts"
 import { Nav } from "@/shell/nav"
+import { ink } from "@/shell/ink"
 
 const radiusMap = { sharp: "4px", soft: "10px", round: "16px" }
 const densityMap = { compact: "12px", comfortable: "20px" }
@@ -39,7 +40,7 @@ function rgb(hex: string) {
   return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`
 }
 
-export const metadata = { title: "Sistema", description: "Demo" }
+export const metadata = { title: theme.brand.name, description: "Demo frontend con datos de ejemplo" }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   const c = theme.colors
@@ -56,6 +57,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     "--warning": rgb(c.warning),
     "--danger": rgb(c.danger),
     "--info": rgb(c.info),
+    // Tinta: texto sobre tinte (bg-primary/15 text-primary-ink). Ver shell/ink.ts.
+    "--primary-ink": ink(c.primary),
+    "--danger-ink": ink(c.danger),
     "--radius": radiusMap[theme.radius],
     "--pad": densityMap[theme.density],
     "--badge-radius": badgeMap[theme.badge],
@@ -70,9 +74,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es">
       <body className={fontClass} style={vars}>
+        <a
+          href="#contenido"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-bg"
+        >
+          Saltar al contenido
+        </a>
         <div className={"min-h-screen bg-bg text-fg " + (stacked ? "flex flex-col" : "flex")}>
           <Nav />
-          <main className="flex-1 overflow-x-hidden p-[var(--pad)]">{children}</main>
+          <main id="contenido" tabIndex={-1} className="min-w-0 flex-1 overflow-x-hidden p-[var(--pad)] focus:outline-none">
+            {children}
+          </main>
         </div>
       </body>
     </html>

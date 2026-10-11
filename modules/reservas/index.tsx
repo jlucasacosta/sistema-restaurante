@@ -7,8 +7,8 @@ import { getMesas, getProximas, type Mesa, type ProximaLlegada } from "./api"
 
 const relleno: Record<Mesa["estado"], string> = {
   libre: "bg-subtle text-muted border-border",
-  sentada: "bg-primary/20 text-primary border-primary",
-  "por liberar": "bg-danger/20 text-danger border-danger",
+  sentada: "bg-primary/20 text-primary-ink border-primary",
+  "por liberar": "bg-danger/20 text-danger-ink border-danger",
   reservada: "bg-info/15 text-info border-info",
 }
 
@@ -50,15 +50,17 @@ export function ReservasPage() {
               {cuenta(e)} {e}
             </span>
           ))}
-          <span className="chip bg-primary/15 text-primary">{cubiertos} cubiertos</span>
+          <span className="chip bg-primary/15 text-primary-ink">{cubiertos} cubiertos</span>
         </div>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-4">
         {/* El plano: cada mesa esta donde esta en la sala real */}
-        <div className="surface-card relative min-h-[34rem] overflow-hidden p-6 lg:col-span-3">
-          <span className="absolute left-6 top-4 text-[10px] uppercase tracking-[0.3em] text-muted">Salon principal</span>
-          <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-md border border-dashed border-border px-3 py-1 text-[10px] uppercase tracking-widest text-muted">
+        {/* El plano es un diagrama: conserva su proporcion y se desplaza, no se reordena. */}
+        <div className="surface-card min-w-0 overflow-x-auto lg:col-span-3">
+         <div className="relative min-h-[34rem] min-w-[40rem] p-6">
+          <span className="absolute left-6 top-4 text-xs uppercase tracking-[0.3em] text-muted">Salon principal</span>
+          <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-md border border-dashed border-border px-3 py-1 text-xs uppercase tracking-widest text-muted">
             Cocina
           </span>
 
@@ -75,16 +77,19 @@ export function ReservasPage() {
                 (sel?.id === m.id ? " ring-2 ring-accent ring-offset-2 ring-offset-surface" : "")
               }
               title={`Mesa ${m.numero} · ${m.estado}`}
+              aria-label={`Mesa ${m.numero}, ${m.estado}, ${m.capacidad} personas`}
+              aria-pressed={sel?.id === m.id}
             >
               <span className="mesa-num block text-2xl">{m.numero}</span>
-              {m.minutos !== undefined && <span className="block text-[10px] leading-none">{m.minutos}min</span>}
+              {m.minutos !== undefined && <span className="block text-xs leading-none">{m.minutos}min</span>}
             </button>
           ))}
+         </div>
         </div>
 
         {/* Quien llega. Sin selector de periodo: el servicio es AHORA. */}
         <div className="space-y-5">
-          <div className="surface-card p-5">
+          <div className="surface-card p-5" aria-live="polite">
             <h2 className="mb-4 font-heading text-sm font-bold uppercase tracking-widest">
               {sel ? `Mesa ${sel.numero}` : "Proximas llegadas"}
             </h2>
@@ -125,7 +130,7 @@ export function ReservasPage() {
                     </div>
                   </div>
                 )}
-                <button onClick={() => setSel(null)} className="w-full pt-2 text-xs text-muted underline">
+                <button onClick={() => setSel(null)} className="w-full py-3 text-xs text-muted underline">
                   ver proximas llegadas
                 </button>
               </div>

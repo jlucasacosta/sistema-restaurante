@@ -67,8 +67,45 @@ Listo. Vas a ver el sistema funcionando.
 
 Todo el diseño (colores, tipografía, nombre de la marca) vive en un solo archivo: `shell/theme.ts`. Cambiás eso y muta el sistema entero. Probá y mirá qué pasa.
 
+## Cambiar los datos de ejemplo
+
+Todos los datos que ves (comandas, mesas, platos, contactos, mensajes) viven en archivos `modules/<modulo>/data.json`. Podés abrirlos y cambiar nombres, platos o números para adaptarlo a tu restaurante.
+
+- Son de **solo lectura**: el demo no guarda nada. Si en pantalla "avanzás" una comanda o escribís algo, el cambio vive solo hasta que recargás.
+- Al apretar **F5** la pantalla vuelve a mostrar exactamente lo que dice el `data.json`.
+
+## Estructura de carpetas
+
+```
+app/           las páginas (una carpeta por pantalla) y el layout general
+modules/       un módulo por pantalla
+  <modulo>/index.tsx   la pantalla
+  <modulo>/api.ts      las funciones que traen los datos (hoy leen data.json)
+  <modulo>/data.json   los datos de ejemplo
+  <modulo>/BACKEND.md  cómo se conectaría a una base real
+shell/         el marco: theme.ts (diseño), navegación, fuentes, auth de ejemplo
+docs/          guías (IMPLEMENTAR.md)
+.env.example   los nombres de las variables que vas a necesitar (sin valores)
+```
+
+## Llevalo a producción
+
+Este repo es un **demo frontend con datos de ejemplo y sin backend conectado**. Pasarlo a un sistema real es un trabajo aparte, y está explicado paso a paso en [`docs/IMPLEMENTAR.md`](docs/IMPLEMENTAR.md):
+
+- **Supabase**: base de datos y login (tablas listas para copiar, derivadas de este mismo demo).
+- **Vercel**: publicar el sistema con tu propio dominio.
+- **Railway + pg-boss**: tareas en segundo plano, por ejemplo recordatorios de reservas.
+- **OpenAI o Gemini**: borradores de respuesta para las conversaciones con clientes.
+- Un checklist de seguridad para antes de usar datos reales.
+
+La idea es que cambies el cuerpo de las funciones de cada `api.ts` sin tocar las pantallas.
+
+## Licencia
+
+MIT. Podés usarlo, copiarlo y modificarlo. Ver el archivo [`LICENSE`](LICENSE).
+
 ## Te trabaste
 
-Si algo no te salió, preguntá en el Club de la IA:
+Si algo no te salió, preguntá en el Club de la IA. Aprendé a crear tu Agencia de IA y conseguir tu primer cliente:
 
 👉 https://www.skool.com/club-de-la-ia-8047/about

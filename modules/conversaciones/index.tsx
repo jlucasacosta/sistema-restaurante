@@ -14,7 +14,7 @@ const iniciales = (n: string) =>
     .join("")
 
 const tints = [
-  "bg-primary/15 text-primary",
+  "bg-primary/15 text-primary-ink",
   "bg-info/15 text-info",
   "bg-success/15 text-success",
   "bg-accent/15 text-accent",
@@ -44,14 +44,19 @@ export function ConversacionesPage() {
     <div className="space-y-6">
       <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Conversaciones</h1>
 
-      <div className="flex h-[calc(100vh-9rem)] gap-5">
-        <div className="surface-card w-80 shrink-0 overflow-y-auto p-2">
+      <div className="flex flex-col gap-5 lg:h-[calc(100vh-9rem)] lg:flex-row">
+        <div
+          role="group"
+          aria-label="Lista de conversaciones"
+          className="surface-card max-h-72 w-full shrink-0 overflow-y-auto p-2 lg:max-h-none lg:w-80"
+        >
           {threads.map((t) => (
             <button
               key={t.id}
               onClick={() => setActive(t.id)}
+              aria-current={active === t.id ? "true" : undefined}
               className={
-                "flex w-full items-start gap-3 rounded-xl p-3 text-left transition-colors " +
+                "flex min-h-11 w-full items-start gap-3 rounded-xl p-3 text-left transition-colors " +
                 (active === t.id ? "bg-subtle" : "hover:bg-subtle")
               }
             >
@@ -77,7 +82,7 @@ export function ConversacionesPage() {
           ))}
         </div>
 
-        <div className="surface-card flex flex-1 flex-col overflow-hidden">
+        <div className="surface-card flex min-h-[28rem] min-w-0 flex-1 flex-col overflow-hidden lg:min-h-0">
           {actual && (
             <div className="flex items-center gap-3 border-b border-border px-6 py-4">
               <span
@@ -97,7 +102,7 @@ export function ConversacionesPage() {
               </div>
             </div>
           )}
-          <div className="flex-1 space-y-3 overflow-y-auto p-6">
+          <div role="log" aria-label="Mensajes" className="min-h-[14rem] flex-1 space-y-3 overflow-y-auto p-6">
             {msgs.map((m) => (
               <div
                 key={m.id}
@@ -107,17 +112,22 @@ export function ConversacionesPage() {
                 }
               >
                 {m.text}
-                <span className="mt-1 block text-xs opacity-60">{m.time}</span>
+                <span className="mt-1 block text-xs opacity-90">{m.time}</span>
               </div>
             ))}
           </div>
           <div className="flex items-center gap-2 border-t border-border p-4">
             <input
+              aria-label="Escribi un mensaje"
               placeholder="Escribi un mensaje..."
-              className="w-full rounded-xl bg-subtle px-4 py-2.5 text-sm outline-none"
+              className="w-full rounded-xl bg-subtle px-4 py-2.5 text-sm"
             />
-            <button className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-bg transition-opacity hover:opacity-90">
-              <Send size={18} strokeWidth={2.5} />
+            <button
+              type="button"
+              aria-label="Enviar mensaje"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary text-bg transition-opacity hover:opacity-90"
+            >
+              <Send size={18} strokeWidth={2.5} aria-hidden />
             </button>
           </div>
         </div>

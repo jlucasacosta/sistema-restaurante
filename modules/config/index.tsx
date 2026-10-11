@@ -8,7 +8,7 @@ function Fila({ label, value, swatch }: { label: string; value: string; swatch?:
     <div className="flex items-center justify-between">
       <span className="text-sm text-muted">{label}</span>
       <span className="flex items-center gap-2 text-sm font-medium">
-        {swatch && <span className="h-4 w-4 rounded-full border border-border" style={{ background: value }} />}
+        {swatch && <span aria-hidden className="h-4 w-4 rounded-full border border-border" style={{ background: value }} />}
         {value}
       </span>
     </div>
@@ -68,9 +68,9 @@ export function ConfigPage() {
         <div className="flex flex-wrap gap-2">
           <span className="chip bg-success/15 text-success">listo</span>
           <span className="chip bg-warning/15 text-warning">atencion</span>
-          <span className="chip bg-danger/15 text-danger">demorado</span>
+          <span className="chip bg-danger/15 text-danger-ink">demorado</span>
           <span className="chip bg-info/15 text-info">reservada</span>
-          <span className="chip bg-primary/15 text-primary">en preparacion</span>
+          <span className="chip bg-primary/15 text-primary-ink">en preparacion</span>
           <span className="chip bg-accent/15 text-accent">vip</span>
         </div>
         <p className="pt-2 text-xs text-muted">

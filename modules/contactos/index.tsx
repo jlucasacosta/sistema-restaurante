@@ -9,7 +9,7 @@ const tipoChip: Record<Comensal["tipo"], string> = {
   vip: "bg-accent/15 text-accent",
   frecuente: "bg-success/15 text-success",
   nuevo: "bg-info/15 text-info",
-  inactivo: "bg-danger/15 text-danger",
+  inactivo: "bg-danger/15 text-danger-ink",
 }
 
 const iniciales = (n: string) =>
@@ -38,8 +38,9 @@ export function ContactosPage() {
             <button
               key={t}
               onClick={() => setFiltro(t)}
+              aria-pressed={filtro === t}
               className={
-                "chip transition-colors " +
+                "chip hit transition-colors " +
                 (filtro === t ? "bg-primary text-bg" : "bg-subtle text-muted hover:text-fg")
               }
             >
@@ -71,13 +72,13 @@ export function ContactosPage() {
 
             <div className="mt-5 flex items-end justify-between border-t border-border pt-4">
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-muted">Plato favorito</p>
+                <p className="text-xs uppercase tracking-widest text-muted">Plato favorito</p>
                 <p className="text-sm font-medium">{c.favorito}</p>
                 <p className="mt-1 text-xs text-muted">ultima visita {c.ultima}</p>
               </div>
               <div className="text-right">
                 <p className="mesa-num text-4xl text-primary">{c.visitas}</p>
-                <p className="text-[10px] uppercase tracking-widest text-muted">visitas</p>
+                <p className="text-xs uppercase tracking-widest text-muted">visitas</p>
               </div>
             </div>
           </article>
