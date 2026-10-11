@@ -50,9 +50,9 @@ export function ContactosPage() {
         </div>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {visibles.map((c) => (
-          <article key={c.id} className="surface-card p-5">
+          <article key={c.id} className="surface-card min-w-0 p-5">
             <div className="flex items-start gap-4">
               <span
                 className={
@@ -63,7 +63,7 @@ export function ContactosPage() {
                 {iniciales(c.name)}
               </span>
               <div className="min-w-0 flex-1">
-                <p className="truncate font-heading text-lg font-bold">{c.name}</p>
+                <p className="break-words font-heading text-lg font-bold leading-tight sm:truncate">{c.name}</p>
                 <p className="truncate text-xs text-muted">{c.email}</p>
                 <p className="text-xs text-muted">{c.phone}</p>
               </div>
