@@ -58,7 +58,7 @@ function TarjetaPase({ o, tick }: { o: OrdenPase; tick: number }) {
   const Icono = iconoDeFuego[nivel]
 
   return (
-    <li className={"surface-card flex w-56 shrink-0 flex-col border-l-[6px] p-4 " + bordeDeFuego[nivel]}>
+    <li className={"surface-card relative flex w-56 shrink-0 flex-col border-l-[6px] p-4 " + bordeDeFuego[nivel]}>
       <div className="flex items-baseline justify-between">
         <span className="mesa-num text-5xl font-bold">
           <span className="sr-only">Mesa </span>
