@@ -3,6 +3,14 @@ import { theme } from "@/shell/theme"
 // paneles-de-seccion: tarjetas agrupadas. NO acordeon (ese arquetipo ya lo usa Menu:
 // dentro de un mismo sistema tampoco se repite un arquetipo).
 
+// Los valores del theme son identificadores en inglés (dark, rail...): acá se muestran en castellano.
+const modo = { light: "claro", dark: "oscuro" } as const
+const navegacion = { sidebar: "barra lateral", topbar: "barra superior", rail: "riel angosto" } as const
+const elevacion = { raised: "tarjetas elevadas", outlined: "tarjetas con borde", flat: "sin sombra" } as const
+const bordes = { sharp: "rectos", soft: "suaves", round: "redondeados" } as const
+const densidad = { compact: "compacta", comfortable: "cómoda" } as const
+const chips = { pill: "píldora", square: "cuadrado" } as const
+
 function Fila({ label, value, swatch }: { label: string; value: string; swatch?: boolean }) {
   return (
     <div className="flex items-center justify-between">
@@ -38,43 +46,47 @@ export function ConfigPage() {
         </Panel>
 
         <Panel titulo="Forma">
-          <Fila label="Modo" value={theme.mode} />
-          <Fila label="Navegación" value={theme.nav} />
-          <Fila label="Elevación" value={theme.elevation} />
-          <Fila label="Bordes" value={theme.radius} />
-          <Fila label="Densidad" value={theme.density} />
-          <Fila label="Chips" value={theme.badge} />
+          <Fila label="Modo" value={modo[theme.mode]} />
+          <Fila label="Navegación" value={navegacion[theme.nav]} />
+          <Fila label="Elevación" value={elevacion[theme.elevation]} />
+          <Fila label="Bordes" value={bordes[theme.radius]} />
+          <Fila label="Densidad" value={densidad[theme.density]} />
+          <Fila label="Chips" value={chips[theme.badge]} />
         </Panel>
 
         <Panel titulo="Paleta">
           <Fila label="Brasa (primario)" value={c.primary} swatch />
           <Fila label="Glow (acento)" value={c.accent} swatch />
-          <Fila label="Listo" value={c.success} swatch />
-          <Fila label="Atención" value={c.warning} swatch />
-          <Fila label="Demorado" value={c.danger} swatch />
-          <Fila label="Info" value={c.info} swatch />
+          <Fila label="Listo y sentada" value={c.success} swatch />
+          <Fila label="Atención y por liberar" value={c.warning} swatch />
+          <Fila label="Demorado y agotado" value={c.danger} swatch />
+          <Fila label="En tiempo y reservada" value={c.info} swatch />
         </Panel>
 
-        <Panel titulo="Cocina">
-          <Fila label="Umbral ámbar" value={`${theme.fuego.ok} min`} />
-          <Fila label="Umbral demorado" value={`${theme.fuego.demora} min`} />
+        <Panel titulo="Cocina y sala">
+          <Fila label="Atención desde" value={`${theme.fuego.ok} min`} />
+          <Fila label="Demorado desde" value={`${theme.fuego.demora} min`} />
+          <Fila label="Rotación de mesa" value={`${theme.sala.rotacion} min`} />
+          <Fila label="Aviso de rotación" value={`${theme.sala.aviso} min`} />
           <p className="pt-2 text-xs text-muted">
-            Las Comandas en curso usan estos dos números para marcar los tiempos. Cambialos y se ajusta toda la cocina.
+            Las comandas usan los dos primeros números para marcar los tiempos y las mesas usan los otros dos.
+            Cambialos en shell/theme.ts y se ajusta todo el sistema.
           </p>
         </Panel>
       </div>
 
       <Panel titulo="Estados">
         <div className="flex flex-wrap gap-2">
-          <span className="chip bg-success/15 text-success">listo</span>
-          <span className="chip bg-warning/15 text-warning">atención</span>
-          <span className="chip bg-danger/15 text-danger-ink">demorado</span>
-          <span className="chip bg-info/15 text-info">reservada</span>
-          <span className="chip bg-primary/15 text-primary-ink">en preparación</span>
-          <span className="chip bg-accent/15 text-accent">vip</span>
+          <span className="chip bg-info/15 text-info">en tiempo · reservada</span>
+          <span className="chip bg-warning/15 text-warning">atención · por liberar</span>
+          <span className="chip bg-danger/15 text-danger-ink">demorado · agotado</span>
+          <span className="chip bg-success/15 text-success">listo · sentada</span>
+          <span className="chip bg-accent/15 text-accent">VIP</span>
+          <span className="chip border border-border bg-subtle text-muted">inactivo · libre</span>
         </div>
         <p className="pt-2 text-xs text-muted">
-          Todo esto sale de shell/theme.ts. Cambiás un archivo y muta el sistema entero.
+          El rojo queda para lo que falla o se pasó de tiempo. La brasa es la identidad del sistema (botones y menú),
+          no un estado. Todo esto sale de shell/theme.ts.
         </p>
       </Panel>
     </div>

@@ -11,3 +11,6 @@ export const nav: NavItem[] = [
   { label: "Contactos", href: "/contactos", icon: Users },
   { label: "Configuración", href: "/config", icon: Settings },
 ]
+
+// Usuario de la demo (pie del menú). Ficticio: no es una cuenta real ni hay sesión.
+export const usuarioDemo = { iniciales: "MR", etiqueta: "Cuenta demo" }

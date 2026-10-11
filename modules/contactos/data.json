@@ -97,7 +97,7 @@
       "email": "riturralde@gmail.com",
       "visitas": 41,
       "favorito": "Ojo de bife",
-      "ultima": "hoy",
+      "ultima": "hace 5 días",
       "tipo": "vip"
     },
     {
@@ -147,8 +147,8 @@
       "email": "silvi.aristi@outlook.com",
       "visitas": 5,
       "favorito": "Volcán de chocolate",
-      "ultima": "hace mes y medio",
-      "tipo": "inactivo"
+      "ultima": "hace 3 semanas",
+      "tipo": "frecuente"
     },
     {
       "id": "16",
@@ -177,8 +177,8 @@
       "email": "nico.vaccaro@gmail.com",
       "visitas": 14,
       "favorito": "Ceviche de la casa",
-      "ultima": "hace 2 meses",
-      "tipo": "inactivo"
+      "ultima": "hace 5 semanas",
+      "tipo": "frecuente"
     },
     {
       "id": "19",
@@ -187,8 +187,8 @@
       "email": "rociobilbao@hotmail.com",
       "visitas": 7,
       "favorito": "Tartar de trucha",
-      "ultima": "hace 10 días",
-      "tipo": "frecuente"
+      "ultima": "hace 2 meses",
+      "tipo": "inactivo"
     },
     {
       "id": "20",

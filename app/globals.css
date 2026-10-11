@@ -63,15 +63,6 @@
 }
 
 @layer components {
-  /* Area de toque de 44px sin cambiar el tamano visual del elemento. */
-  .hit {
-    position: relative;
-  }
-  .hit::after {
-    content: "";
-    position: absolute;
-    inset: -0.75rem -0.25rem;
-  }
   .surface-card {
     background: rgb(var(--surface));
     border-radius: calc(var(--radius) + 4px);
@@ -87,8 +78,28 @@
     font-size: 0.75rem;
     line-height: 1.25rem;
     white-space: nowrap;
+    /* Un <button> no hereda la fuente: sin esto el chip-boton sale en la del navegador. */
+    font-family: var(--font-body);
   }
-  /* El numero de mesa: el unico lugar donde vive Bebas. */
+  /* .chip es SOLO una etiqueta. Si el chip se puede clickear (filtro, toggle) lleva "chip chip-btn"
+     y aria-pressed. Mide 28px en escritorio y 44px en pantallas tactiles o angostas. */
+  .chip-btn {
+    min-height: 1.75rem;
+    cursor: pointer;
+  }
+  /* Area de toque de 44px para botones y links que no son chips. */
+  .tap {
+    min-height: 1.75rem;
+  }
+  @media (pointer: coarse), (max-width: 767px) {
+    .tap,
+    .chip-btn {
+      min-height: 2.75rem;
+      min-width: 2.75rem;
+      justify-content: center;
+    }
+  }
+  /* El numero de mesa y las cifras grandes: el unico lugar donde vive Bebas. */
   .mesa-num {
     font-family: var(--font-number);
     line-height: 0.85;
@@ -96,55 +107,15 @@
   }
 }
 
-/* El ticket demorado LATE. Es el frame que se graba. */
-@keyframes latir {
-  0%, 100% { box-shadow: 0 0 0 0 rgb(var(--danger) / 0.55); }
-  50% { box-shadow: 0 0 0 10px rgb(var(--danger) / 0); }
+/* Pista de scroll: degrade en el borde cuando queda contenido fuera de vista.
+   La pone shell/pista-scroll.ts solo mientras hay mas por recorrer. */
+.pista-x {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
 }
-.late { animation: latir 1.4s ease-out infinite; }
-
-/* El ticket que sale del pase se desliza a la derecha. */
-@keyframes salir {
-  to { transform: translateX(130%); opacity: 0; }
-}
-.saliendo { animation: salir 550ms cubic-bezier(0.4, 0, 1, 1) forwards; }
-
-/* Flash verde frio cuando una comanda pasa a LISTO. */
-@keyframes flash-listo {
-  0% { background: rgb(var(--success) / 0.35); }
-  100% { background: rgb(var(--surface)); }
-}
-.flash-listo { animation: flash-listo 900ms ease-out; }
-
-/* El ticker de KPIs corre solo: la cocina vive el ahora. */
-@keyframes correr {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.ticker-track {
-  display: flex;
-  width: max-content;
-  animation: correr 32s linear infinite;
-}
-/* Pausa con mouse o con teclado (la tira es enfocable). */
-.ticker-mask:hover .ticker-track,
-.ticker-mask:focus-within .ticker-track { animation-play-state: paused; }
-
-/* Reduced motion: no se apaga el estado, se cambia el tratamiento. */
-@keyframes salir-suave {
-  to { opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  /* El ticket demorado sigue marcado: aro fijo en vez de latido. */
-  .late { animation: none; box-shadow: var(--shadow-card), 0 0 0 3px rgb(var(--danger) / 0.7); }
-  /* El ticket que sale se desvanece, sin desplazarse. */
-  .saliendo { animation: salir-suave 200ms linear forwards; }
-  .flash-listo { animation: none; }
-  .animate-pulse { animation: none; }
-  /* El ticker se queda quieto y se recorre con scroll: solo la primera copia. */
-  .ticker-mask { overflow-x: auto; }
-  .ticker-track { animation: none; }
-  .ticker-dup { display: none; }
+.pista-y {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 2.5rem), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 2.5rem), transparent);
 }
 
 html {

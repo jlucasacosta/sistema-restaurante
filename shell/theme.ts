@@ -30,6 +30,8 @@ export type Theme = {
   // Umbrales de coccion, en minutos. El Riel del Pase envejece con esto.
   // Tambien viven aca: ningun componente inventa un numero magico.
   fuego: { ok: number; demora: number }
+  // Rotacion de mesa, en minutos: objetivo de la mesa y desde cuando se avisa que hay que liberarla.
+  sala: { rotacion: number; aviso: number }
 }
 
 export const brasa: Theme = {
@@ -56,6 +58,7 @@ export const brasa: Theme = {
     info: "#6fa8bd",
   },
   fuego: { ok: 6, demora: 12 },
+  sala: { rotacion: 90, aviso: 80 },
 }
 
 export const theme: Theme = brasa

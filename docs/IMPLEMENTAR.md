@@ -51,7 +51,7 @@ npm install
 npm run dev
 ```
 
-Abrí http://localhost:3000. Tenés que ver el panel de Brasa Cocina con el ticker corriendo.
+Abrí http://localhost:3000. Tenés que ver el Dashboard de Brasa Cocina con los indicadores del turno y las comandas en curso.
 
 **Si algo falla, los 3 errores típicos:**
 
@@ -69,7 +69,7 @@ El demo está hecho para que conectar el backend sea **cambiar el cuerpo de las 
 
 | Módulo (`modules/…`) | Funciones de `api.ts` | Datos de ejemplo (`data.json`) | Tablas sugeridas |
 |---|---|---|---|
-| `dashboard` | `getTicker`, `getTiempoFuego`, `getCurvaServicio`, `getPase` | `ticker`, `tiempoFuego`, `curvaServicio`, `pase` | Sin tablas propias: **vistas** `v_pase`, `v_tiempo_fuego`, `v_curva_servicio` + conteos para el ticker |
+| `dashboard` | `getTicker`, `getTiempoFuego`, `getCurvaServicio`, `getPase` | `ticker`, `tiempoFuego`, `curvaServicio`, `pase` | Sin tablas propias: **vistas** `v_pase`, `v_tiempo_fuego`, `v_curva_servicio` + conteos para los indicadores del turno |
 | `menu` | `getCarta` | `carta` (secciones con `platos`) | `secciones_carta`, `platos` |
 | `conversaciones` | `getThreads`, `getMessages` | `threads`, `conversaciones`, `generico` | `conversaciones`, `mensajes` |
 | `reservas` | `getMesas`, `getProximas` | `mesas`, `proximas` | `mesas`, `reservas` |
@@ -94,7 +94,7 @@ Cada módulo trae además un `BACKEND.md` con notas cortas. Esta guía las desar
 | `Thread` | `last`, `time`, `unread` | `conversaciones.last`, `last_at`, `unread` | directo (`time` lo formateás) |
 | `Message` | `from`, `text`, `time` | `mensajes.autor`, `texto`, `created_at` | `from` es palabra reservada de SQL, por eso la columna se llama `autor` |
 
-El ticker del dashboard (`getTicker`) no tiene tabla: son 8 números que armás con consultas cortas de conteo o suma:
+Los indicadores del turno del dashboard (`getTicker`, una fila fija de 8 números) no tienen tabla: los armás con consultas cortas de conteo o suma. `tono: "alerta"` pinta el valor de rojo (por ejemplo `Demorados`, `Platos agotados`); el resto va neutro:
 
 | Tile del demo | Cómo sacarlo |
 |---|---|
@@ -275,11 +275,12 @@ select avg(extract(epoch from (listo_at - fired_at)))::int as promedio_seg,
 from public.comandas
 where listo_at >= now() - interval '12 hours';
 
+-- Cubiertos sentados cada 30 minutos: "19:30" = de 19:30 a 19:59 (date_bin pide Postgres 14 o más; Supabase lo cumple).
 -- Cambia 'America/Argentina/Buenos_Aires' por la zona horaria de tu restaurante.
 create view public.v_curva_servicio with (security_invoker = true) as
-select to_char(sentada_at at time zone 'America/Argentina/Buenos_Aires', 'HH24') as hora,
-       sum(personas)::int                                                        as cubiertos,
-       min(sentada_at)                                                           as desde
+select to_char(date_bin('30 minutes', sentada_at at time zone 'America/Argentina/Buenos_Aires', timestamp '2000-01-01'), 'HH24:MI') as hora,
+       sum(personas)::int                                                                                                    as cubiertos,
+       min(sentada_at)                                                                                                       as desde
 from public.reservas
 where sentada_at >= now() - interval '12 hours'
 group by 1
@@ -516,7 +517,7 @@ node --env-file=.env.local scripts/seed.mjs
 
 Tiene que imprimir una línea por tabla (`contactos: 24 filas`, `platos: 28 filas`, …). Si lo corrés dos veces vas a tener datos duplicados o errores de clave repetida: para empezar de cero, borrá las filas desde el **Table Editor**.
 
-> Los números del dashboard (tiempo de preparación, curva por hora) **no van a coincidir** con los del demo: ahora se calculan con los datos cargados y la hora actual. Eso es lo correcto.
+> Los números del dashboard (tiempo de preparación, servicio por franja de 30 minutos) **no van a coincidir** con los del demo: ahora se calculan con los datos cargados y la hora actual. Eso es lo correcto.
 
 **B. Import CSV del Table Editor.** En **Table Editor → (tabla) → Insert → Import data from CSV** podés subir un CSV por tabla. Sirve para `contactos`, `secciones_carta` y `platos` si convertís el JSON a CSV a mano (`precio` sin `$` ni puntos). No es práctico para `reservas`, `comandas` y `mensajes`, porque dependen de fechas calculadas.
 
@@ -715,7 +716,8 @@ Detalles útiles:
 
 - **Manejo de error:** `supabase-js` no lanza excepciones: devuelve `{ data, error }`. Siempre mirá `error` antes de usar `data`.
 - **Tipos:** `data` viene tipado como `any` hasta que generes los tipos de tu base: `npx supabase gen types typescript --project-id tu-proyecto > lib/supabase/database.types.ts` y se los pasás a `createBrowserClient<Database>(…)`.
-- **Las pantallas hoy no manejan errores** (`getComandas().then(setRows)` sin `catch`). Cuando conectes el backend real, agregá un estado de error y un mensaje en cada módulo.
+- **Las pantallas ya manejan la carga y el error.** Cada módulo usa `useCarga` (`shell/carga.tsx`) sobre la función del `api.ts`: mientras llegan los datos muestra `—` y un esqueleto, y si la promesa se rechaza (el `throw new Error(...)` de los ejemplos de arriba) muestra el aviso con el botón **Reintentar**. Por eso las funciones del `api.ts` tienen que **lanzar** el error y no devolver una lista vacía.
+- **Las fichas laterales (contactos, menú y reservas) hoy no guardan nada.** Sus acciones (`Reservar mesa`, `Marcar como no disponible`, `Liberar mesa`...) solo cambian el estado de React y muestran el aviso "Demo: no se guardó nada". Cuando conectes el backend, sumá una función al `api.ts` de cada módulo (por ejemplo `actualizarEstadoPlato(id, estado)`) y llamala desde el `onClick` de esos botones.
 - Hacé **un módulo por vez** y probalo antes de pasar al siguiente. Empezá por `contactos` (el más simple) y dejá `dashboard` para el final.
 
 ### 3.8 Auth con Supabase Auth

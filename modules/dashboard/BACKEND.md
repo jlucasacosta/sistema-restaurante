@@ -5,3 +5,5 @@
 - Fuente ideal: vistas / materialized views en Supabase.
 - Realtime opcional: refrescar KPIs suscribiendo a las tablas fuente.
 - Reemplazar: modules/dashboard/api.ts (mock -> queries agregadas). Misma firma.
+- Los indicadores del turno son una fila fija (ya no una cinta que se desplaza). Cada bloque tiene su propio `useCarga` y su "Reintentar".
+- `getCurvaServicio` devuelve cubiertos por franja de 30 minutos (`hora` = "19:30").

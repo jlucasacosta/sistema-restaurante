@@ -18,13 +18,19 @@ Aprendé a crear tu Agencia de IA y conseguir tu primer cliente. Eso lo trabajam
 ---
 
 ## Qué incluye
-- Dashboard con métricas del negocio
-- Menú (catálogo de platos con filtros por categoría)
-- Conversaciones (inbox de clientes)
-- Reservas (agenda de mesas del dia)
-- Comandas (tablero de cocina por estado)
-- Contactos (clientes)
-- Configuración
+- **Dashboard**: indicadores del turno, comandas en curso (el cronómetro de cada una corre en vivo), servicio por franja de 30 minutos y tiempo de preparación.
+- **Menú**: la carta en secciones colapsables. Cada plato abre su **ficha lateral** (precio, estado, ventas de hoy) y se puede marcar como no disponible.
+- **Conversaciones**: bandeja de pedidos y consultas, con la conversación al lado.
+- **Reservas**: plano del salón con las mesas donde están en la realidad y las próximas llegadas. Cada mesa y cada llegada abre su **ficha lateral**.
+- **Comandas**: tablero de cocina por estado. Cada ticket avanza de columna con su botón y marca si está en tiempo, con atención o demorado.
+- **Contactos**: tarjetas de comensales con filtro por tipo. Cada una abre su **ficha lateral**.
+- **Configuración**: marca, forma, paleta y los umbrales de cocina y sala.
+
+### Cómo se comporta
+- **Carga y error**: mientras llegan los datos las pantallas muestran `—` y un esqueleto quieto (nunca ceros falsos). Si la carga falla aparece el aviso con **Reintentar**.
+- **Fichas laterales**: se abren con clic o con Enter sobre el nombre; se cierran con Esc o con la X. Sus acciones son de demostración: avisan "Demo: no se guardó nada" y nada queda guardado.
+- **Estados con rótulo**: un ticket nunca se dice solo con color; lleva texto e ícono (En tiempo, Atención, Demorado, Lista). Los umbrales (6 y 12 minutos) salen de `shell/theme.ts` y la leyenda de cada pantalla se actualiza sola.
+- **En el celular**: el menú es un riel angosto con el usuario demo al pie; si no entran todos los ítems se puede deslizar y un degradé lo avisa.
 
 ## Requisitos (instalá esto primero)
 

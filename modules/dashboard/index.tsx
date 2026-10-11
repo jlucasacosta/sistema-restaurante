@@ -1,45 +1,53 @@
 "use client"
 import { useEffect, useState } from "react"
-import { getTicker, getPase, getCurvaServicio, getTiempoFuego, type TickerItem, type OrdenPase, type HoraPunto } from "./api"
-import { nivelDeFuego, bordeDeFuego, textoDeFuego, rellenoDeFuego, mmss } from "@/shell/fuego"
+import { TrendingDown, TrendingUp } from "lucide-react"
+import { getTicker, getPase, getCurvaServicio, getTiempoFuego, type OrdenPase } from "./api"
+import {
+  nivelDeFuego,
+  bordeDeFuego,
+  textoDeFuego,
+  rellenoDeFuego,
+  tintaDeFuego,
+  rotuloDeFuego,
+  iconoDeFuego,
+  mmss,
+} from "@/shell/fuego"
+import { useCarga, Esqueleto, ErrorCarga } from "@/shell/carga"
+import { LeyendaFuego } from "@/shell/leyenda-fuego"
+import { usePistaScroll } from "@/shell/pista-scroll"
 
 // El dashboard NO opera: resume la noche. Sin selector de periodo (ver DISENO.md).
-// Hero: el Riel del Pase, ordenado por antiguedad. Arriba, el ticker corriendo.
+// Hero: el Riel del Pase, ordenado por antigüedad. Arriba, los indicadores del turno en una fila fija
+// (antes era una cinta que se desplazaba sola; ver DISENO.md, nota del 2026-10-11).
 
-const tono: Record<TickerItem["tono"], string> = {
-  primary: "text-primary",
-  accent: "text-accent",
-  success: "text-success",
-  warning: "text-warning",
-  danger: "text-danger",
-  info: "text-info",
-}
-
-function Ticker({ items }: { items: TickerItem[] }) {
-  if (!items.length) return <div className="h-16 animate-pulse rounded-xl bg-subtle" />
-  // Se duplica la tira para que el loop sea continuo.
-  // La segunda copia es solo visual: oculta para lectores y con reduced-motion.
-  const tira = [...items, ...items]
+function Indicadores() {
+  const { data, error, cargando, reintentar } = useCarga(getTicker)
+  const pista = usePistaScroll<HTMLUListElement>("x", data?.length)
+  if (error) return <ErrorCarga mensaje="No pudimos cargar los indicadores del turno." onReintentar={reintentar} />
   return (
-    <div
-      role="region"
-      aria-label="Indicadores de la noche"
-      tabIndex={0}
-      className="ticker-mask surface-card overflow-hidden py-4 focus-visible:-outline-offset-2"
-    >
-      <div className="ticker-track">
-        {tira.map((t, i) => (
-          <div
-            key={i}
-            aria-hidden={i >= items.length ? true : undefined}
-            className={"flex shrink-0 items-baseline gap-3 border-r border-border px-8" + (i >= items.length ? " ticker-dup" : "")}
-          >
-            <span className="text-xs uppercase tracking-widest text-muted">{t.label}</span>
-            <span className={"mesa-num text-3xl " + tono[t.tono]}>{t.valor}</span>
-          </div>
-        ))}
-      </div>
-    </div>
+    <section aria-label="Indicadores del turno" aria-busy={cargando} className="surface-card p-4 sm:p-5">
+      {cargando || !data ? (
+        <div aria-hidden="true" className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          {Array.from({ length: 8 }, (_, i) => (
+            <Esqueleto key={i} className="h-14" />
+          ))}
+        </div>
+      ) : (
+        <ul
+          ref={pista.ref}
+          tabIndex={0}
+          aria-label="Indicadores del turno, deslizá para ver todos"
+          className={"flex gap-6 overflow-x-auto md:grid md:grid-cols-4 md:gap-x-6 md:gap-y-5 " + pista.clase}
+        >
+          {data.map((t) => (
+            <li key={t.id} className="min-w-[7.5rem] shrink-0 md:min-w-0">
+              <p className="text-xs uppercase tracking-wider text-muted">{t.label}</p>
+              <p className={"mesa-num mt-1 text-3xl " + (t.tono === "alerta" ? "text-danger" : "text-fg")}>{t.valor}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   )
 }
 
@@ -47,111 +55,170 @@ function TarjetaPase({ o, tick }: { o: OrdenPase; tick: number }) {
   const segundos = o.firedHace + tick
   const nivel = nivelDeFuego(segundos)
   const progreso = Math.min(segundos / o.objetivo, 1)
+  const Icono = iconoDeFuego[nivel]
 
   return (
-    <div
-      className={
-        "surface-card w-56 shrink-0 border-l-[6px] p-4 " +
-        bordeDeFuego[nivel] +
-        (nivel === "tarde" ? " late" : "")
-      }
-    >
+    <li className={"surface-card flex w-56 shrink-0 flex-col border-l-[6px] p-4 " + bordeDeFuego[nivel]}>
       <div className="flex items-baseline justify-between">
-        <span className="mesa-num text-5xl font-bold">{o.mesa}</span>
+        <span className="mesa-num text-5xl font-bold">
+          <span className="sr-only">Mesa </span>
+          {o.mesa}
+        </span>
         <span className={"mesa-num text-2xl " + textoDeFuego[nivel]}>{mmss(segundos)}</span>
       </div>
-      <p className="mt-2 h-9 text-xs leading-tight text-muted">{o.resumen}</p>
-      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-subtle">
+      <p className={"mt-1 flex items-center justify-end gap-1 text-xs font-medium " + tintaDeFuego[nivel]}>
+        <Icono size={14} aria-hidden="true" />
+        {rotuloDeFuego[nivel]}
+      </p>
+      <p className="mt-2 flex-1 text-xs leading-tight text-muted">{o.resumen}</p>
+      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-subtle">
         <div className={"h-full rounded-full " + rellenoDeFuego[nivel]} style={{ width: progreso * 100 + "%" }} />
       </div>
-    </div>
+      <p className="mt-1 text-xs text-muted">objetivo {mmss(o.objetivo)}</p>
+    </li>
+  )
+}
+
+function RielDelPase({ tick }: { tick: number }) {
+  const { data, error, cargando, reintentar } = useCarga(getPase)
+  const pista = usePistaScroll<HTMLUListElement>("x", data?.length)
+  const ordenado = [...(data ?? [])].sort((a, b) => b.firedHace - a.firedHace)
+
+  return (
+    <section aria-busy={cargando} className="surface-card space-y-4 p-4 sm:p-5">
+      <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h2 className="font-heading text-sm font-bold uppercase tracking-widest">Comandas en curso</h2>
+        <span className="text-xs text-muted">
+          {cargando ? "—" : data ? data.length : "—"} en cocina o emplatando · la más antigua primero
+        </span>
+      </header>
+      <LeyendaFuego />
+      {error ? (
+        <ErrorCarga mensaje="No pudimos cargar las comandas en curso." onReintentar={reintentar} />
+      ) : cargando ? (
+        <div aria-hidden="true" className="flex gap-4 overflow-hidden">
+          {Array.from({ length: 4 }, (_, i) => (
+            <Esqueleto key={i} className="h-40 w-56 shrink-0" />
+          ))}
+        </div>
+      ) : (
+        <ul
+          ref={pista.ref}
+          tabIndex={0}
+          aria-label="Comandas en curso, la más antigua primero"
+          className={"flex gap-4 overflow-x-auto pb-2 " + pista.clase}
+        >
+          {ordenado.map((o) => (
+            <TarjetaPase key={o.id} o={o} tick={tick} />
+          ))}
+        </ul>
+      )}
+    </section>
+  )
+}
+
+function CurvaDeServicio() {
+  const { data, error, cargando, reintentar } = useCarga(getCurvaServicio)
+  const max = Math.max(...(data ?? []).map((c) => c.cubiertos), 1)
+
+  return (
+    <section aria-busy={cargando} className="surface-card p-5 sm:p-6 lg:col-span-2">
+      <header className="mb-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+        <h2 className="font-heading text-sm font-bold uppercase tracking-widest">Servicio por franja</h2>
+        <ul className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted" aria-label="Referencias del gráfico">
+          <li className="flex items-center gap-1.5">
+            <span aria-hidden="true" className="h-3 w-3 rounded-sm bg-accent" /> franja pico
+          </li>
+          <li className="flex items-center gap-1.5">
+            <span aria-hidden="true" className="h-3 w-3 rounded-sm bg-primary/50" /> resto de la noche
+          </li>
+        </ul>
+      </header>
+      <p className="mb-4 text-xs text-muted">Cubiertos sentados cada 30 minutos. La última franja está en curso.</p>
+      {error ? (
+        <ErrorCarga mensaje="No pudimos cargar el servicio por franja." onReintentar={reintentar} />
+      ) : cargando || !data ? (
+        <Esqueleto className="h-44" />
+      ) : (
+        <div role="group" aria-label="Cubiertos sentados cada 30 minutos" className="flex h-44 gap-2 sm:gap-4">
+          {data.map((c) => (
+            <div key={c.hora} className="flex h-full min-w-0 flex-1 flex-col items-center gap-2">
+              <span className="mesa-num text-base text-fg">{c.cubiertos}</span>
+              <div className="flex w-full flex-1 items-end">
+                <div
+                  className={"w-full rounded-t-lg " + (c.cubiertos === max ? "bg-accent" : "bg-primary/50")}
+                  style={{ height: (c.cubiertos / max) * 100 + "%" }}
+                />
+              </div>
+              <span className="mesa-num text-sm text-muted sm:text-base">{c.hora}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  )
+}
+
+// hero-number: el tiempo de preparación de la noche. Un número, no cuatro tiles.
+function TiempoDePreparacion() {
+  const { data, error, cargando, reintentar } = useCarga(getTiempoFuego)
+  const delta = data?.delta ?? 0
+  const Icono = delta > 0 ? TrendingUp : TrendingDown
+  let texto = "en el objetivo"
+  if (delta > 0) texto = "por encima del objetivo"
+  if (delta < 0) texto = "por debajo del objetivo"
+
+  return (
+    <section aria-busy={cargando} className="surface-card flex flex-col justify-center p-5 sm:p-6">
+      <h2 className="font-heading text-sm font-bold uppercase tracking-widest text-muted">Tiempo de preparación</h2>
+      {error ? (
+        <div className="mt-4">
+          <ErrorCarga mensaje="No pudimos cargar el tiempo de preparación." onReintentar={reintentar} />
+        </div>
+      ) : (
+        <>
+          <p className="mesa-num mt-4 text-7xl text-accent">{cargando || !data ? "—" : data.promedio}</p>
+          <p className="mt-2 text-sm text-muted">
+            promedio de la noche · objetivo{" "}
+            <span className="mesa-num text-base text-fg">{cargando || !data ? "—" : data.objetivo}</span>
+          </p>
+          {data && delta !== 0 && (
+            <span
+              className={
+                "chip mt-4 self-start " + (delta > 0 ? "bg-warning/15 text-warning" : "bg-success/15 text-success")
+              }
+            >
+              <Icono size={14} aria-hidden="true" />
+              {Math.abs(delta)} % {texto}
+            </span>
+          )}
+        </>
+      )}
+    </section>
   )
 }
 
 export function DashboardPage() {
-  const [items, setItems] = useState<TickerItem[]>([])
-  const [pase, setPase] = useState<OrdenPase[]>([])
-  const [curva, setCurva] = useState<HoraPunto[]>([])
-  const [fuego, setFuego] = useState<{ promedio: string; objetivo: string; delta: number } | null>(null)
+  // Un solo reloj para toda la pantalla: lo que cambia cada segundo es el cronómetro de las comandas (dato, no decoración).
   const [tick, setTick] = useState(0)
-
-  useEffect(() => {
-    getTicker().then(setItems)
-    getPase().then(setPase)
-    getCurvaServicio().then(setCurva)
-    getTiempoFuego().then(setFuego)
-  }, [])
-
   useEffect(() => {
     const t = setInterval(() => setTick((s) => s + 1), 1000)
     return () => clearInterval(t)
   }, [])
 
-  const max = Math.max(...curva.map((c) => c.cubiertos), 1)
-  const ordenado = [...pase].sort((a, b) => b.firedHace - a.firedHace)
-
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Panel general</h1>
-        <span className="chip bg-primary/15 text-primary-ink">en vivo</span>
+    <div className="space-y-5 sm:space-y-6">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Dashboard</h1>
+        <span className="text-sm text-muted">Resumen del turno de hoy</span>
       </div>
 
-      <Ticker items={items} />
-
-      {/* COMPONENTE ESTRELLA: el Riel del Pase. La mas vieja, a la izquierda. */}
-      <section className="surface-card p-5">
-        <header className="mb-4 flex items-baseline justify-between">
-          <h2 className="font-heading text-sm font-bold uppercase tracking-widest">Comandas en curso</h2>
-          <span className="text-xs text-muted">la más antigua primero</span>
-        </header>
-        <div
-          role="region"
-          aria-label="Comandas en curso, la más antigua primero"
-          tabIndex={0}
-          className="flex gap-4 overflow-x-auto pb-2"
-        >
-          {ordenado.map((o) => (
-            <TarjetaPase key={o.id} o={o} tick={tick} />
-          ))}
-        </div>
-      </section>
+      <Indicadores />
+      <RielDelPase tick={tick} />
 
       <div className="grid gap-5 lg:grid-cols-3">
-        {/* Curva de servicio: barras por hora. El rush se ve, no se calcula. */}
-        <div className="surface-card p-6 lg:col-span-2">
-          <h2 className="mb-6 font-heading text-sm font-bold uppercase tracking-widest">Servicio por hora</h2>
-          <div role="group" aria-label="Cubiertos por hora" className="flex h-44 gap-4">
-            {curva.map((c) => (
-              <div key={c.hora} className="group flex h-full flex-1 flex-col items-center gap-2">
-                <span className="mesa-num text-sm text-muted">{c.cubiertos}</span>
-                <div className="flex w-full flex-1 items-end">
-                  <div
-                    className={"w-full rounded-t-lg transition-all " + (c.cubiertos === max ? "bg-accent" : "bg-primary/60")}
-                    style={{ height: (c.cubiertos / max) * 100 + "%" }}
-                  />
-                </div>
-                <span className="mesa-num text-lg text-muted">{c.hora}h</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* hero-number: el tiempo de fuego de la noche. Un numero, no cuatro tiles. */}
-        <div className="surface-card flex flex-col justify-center p-6">
-          <h2 className="font-heading text-sm font-bold uppercase tracking-widest text-muted">Tiempo de preparación</h2>
-          {fuego && (
-            <>
-              <p className="mesa-num mt-4 text-7xl text-accent">{fuego.promedio}</p>
-              <p className="mt-2 text-sm text-muted">
-                objetivo <span className="mesa-num text-base text-fg">{fuego.objetivo}</span>
-              </p>
-              <span className="chip mt-4 self-start bg-danger/15 text-danger-ink">
-                {fuego.delta}% por encima del objetivo
-              </span>
-            </>
-          )}
-        </div>
+        <CurvaDeServicio />
+        <TiempoDePreparacion />
       </div>
     </div>
   )

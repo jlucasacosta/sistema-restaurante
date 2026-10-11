@@ -132,3 +132,18 @@ Dos dashboards lado a lado, sin leer texto: inmobiliaria = light, sharp, mapa de
 ## 11. Veredicto
 
 **PASA.** Piel 8/8 sobre el mínimo de 3. Esqueleto con 2 arquetipos únicos, combo KPI+gráfico inédito, estrella viva y componente eliminado real. Contraste de semánticos validado en dark (verde "listo" desaturado y frío para no colisionar con el ámbar). Conflicto de fuentes/densidad congelado: **Archivo + Manrope, comfortable**; Bebas solo para el número de mesa gigante.
+
+---
+
+## 12. Nota del 2026-10-11 — corrección tras la crítica de Impeccable (decisión de Lucas)
+
+Lucas pidió que el sistema se vea "más profesional, como un sistema normal", sin animaciones decorativas. La identidad (Archivo + Manrope, brasa sobre carbón, riel, `raised`/`round`/`pill`) **no cambia**. Lo que cambió, y por qué:
+
+- **Movimiento.** Se sacó el aro rojo que latía en el ticket demorado, el ticket que se deslizaba al salir, el flash verde al pasar a LISTO, las barras que se animaban y la cinta de indicadores que corría sola. El frame-firma de §9 ya no late: el ticket demorado se marca con borde rojo, cronómetro rojo y un rótulo "Demorado" con ícono. Se conserva el cronómetro que cuenta (es un dato) y los cambios de color en hover y foco. Los indicadores del turno pasaron a una fila fija (lista estática).
+- **"En tiempo" ya no es brasa.** `primary` (#e2603b) y el rojo ají (#e2483d) son casi la misma familia: un ticket en tiempo se leía como uno demorado. Ahora el borde envejece **info (en tiempo) → ámbar (atención) → rojo ají (demorado)**, y una comanda lista va en verde y deja de envejecer. La brasa queda como identidad (botones, ítem activo del riel, avatares), no como estado. Esto reemplaza la escala "ember → amber → rojo-ají" de §7.
+- **Plano de mesas.** Sentada = verde, por liberar = ámbar, reservada = info, libre = neutra. El rojo sale del plano (la brasa de "sentada" competía con el rojo de "por liberar"). Reemplaza la paleta de estados de §5 (libre carbón / sentada brasa / por liberar ají).
+- **Excepciones de gris decididas acá** (regla de `CLAUDE.md` §9, con rótulo de texto y contraste ≥4.5:1): mesa **libre** (sin cliente) y comensal **inactivo** (sin actividad reciente) van neutros porque no son una alerta. La **estación** de cocina (parrilla, fría, salsas, postres) es una categoría, no un estado: chip neutro con ícono, para que no compita con los colores de estado.
+- **Rojo reservado** para lo que falla o se pasó de tiempo (demorado, agotado). "Inactivo" dejó de ser rojo.
+- **Umbrales en el theme.** `theme.fuego` (6 y 12 min) y el nuevo `theme.sala` (rotación 90 min, aviso desde 80 min) alimentan las leyendas visibles; ningún componente escribe esos números.
+- **Operar.** Todo plato, mesa, próxima llegada y comensal abre una ficha lateral. Los botones de ticket dicen a qué estado pasan ("Pasar a emplatado", "Marcar lista", "Salió") y de verdad mueven el ticket de columna.
+- **Dashboard.** El gráfico de barras pasó de por hora a franjas de 30 minutos hasta la hora actual (antes mostraba horas futuras). "Panel general" se llama ahora "Dashboard", igual que el menú.
