@@ -9,21 +9,21 @@
     },
     {
       "id": "2",
-      "name": "Martin Aguirre",
+      "name": "Martín Aguirre",
       "last": "¿Tienen opciones sin TACC?",
       "time": "15:47",
       "unread": 0
     },
     {
       "id": "3",
-      "name": "Carla Benitez",
+      "name": "Carla Benítez",
       "last": "¿El menú del día sigue disponible?",
       "time": "14:30",
       "unread": 1
     },
     {
       "id": "4",
-      "name": "Nicolas Roldan",
+      "name": "Nicolás Roldán",
       "last": "¿Hacen delivery a Belgrano?",
       "time": "13:58",
       "unread": 3
@@ -51,7 +51,7 @@
     },
     {
       "id": "8",
-      "name": "Sofia Maidana",
+      "name": "Sofía Maidana",
       "last": "¿Cuánto tarda el delivery más o menos?",
       "time": "11:22",
       "unread": 0
@@ -72,7 +72,7 @@
     },
     {
       "id": "11",
-      "name": "Gaston Uriarte",
+      "name": "Gastón Uriarte",
       "last": "¿El bife de chorizo viene con guarnición?",
       "time": "09:40",
       "unread": 0
@@ -86,7 +86,7 @@
     },
     {
       "id": "13",
-      "name": "Delfina Roldan",
+      "name": "Delfina Roldán",
       "last": "¿Hay opciones veganas en la carta?",
       "time": "Ayer",
       "unread": 0
@@ -174,7 +174,7 @@
       {
         "id": "2",
         "from": "vos",
-        "text": "¡Hola Nicolas! Sí, llegamos a Belgrano. El envío ronda los 30-40 min",
+        "text": "¡Hola Nicolás! Sí, llegamos a Belgrano. El envío ronda los 30-40 min",
         "time": "13:38"
       },
       {
