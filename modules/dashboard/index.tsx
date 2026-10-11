@@ -103,11 +103,11 @@ export function DashboardPage() {
       <section className="surface-card p-5">
         <header className="mb-4 flex items-baseline justify-between">
           <h2 className="font-heading text-sm font-bold uppercase tracking-widest">Comandas en curso</h2>
-          <span className="text-xs text-muted">la mas antigua primero</span>
+          <span className="text-xs text-muted">la más antigua primero</span>
         </header>
         <div
           role="region"
-          aria-label="Comandas en curso, la mas antigua primero"
+          aria-label="Comandas en curso, la más antigua primero"
           tabIndex={0}
           className="flex gap-4 overflow-x-auto pb-2"
         >
@@ -139,7 +139,7 @@ export function DashboardPage() {
 
         {/* hero-number: el tiempo de fuego de la noche. Un numero, no cuatro tiles. */}
         <div className="surface-card flex flex-col justify-center p-6">
-          <h2 className="font-heading text-sm font-bold uppercase tracking-widest text-muted">Tiempo de preparacion</h2>
+          <h2 className="font-heading text-sm font-bold uppercase tracking-widest text-muted">Tiempo de preparación</h2>
           {fuego && (
             <>
               <p className="mesa-num mt-4 text-7xl text-accent">{fuego.promedio}</p>

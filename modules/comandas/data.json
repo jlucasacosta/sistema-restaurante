@@ -20,7 +20,7 @@
         },
         {
           "qty": 2,
-          "nombre": "Papas rusticas"
+          "nombre": "Papas rústicas"
         }
       ]
     },
@@ -40,7 +40,7 @@
         },
         {
           "qty": 1,
-          "nombre": "Ensalada de estacion"
+          "nombre": "Ensalada de estación"
         }
       ]
     },
@@ -118,8 +118,8 @@
         },
         {
           "qty": 1,
-          "nombre": "Pesca del dia",
-          "mod": "coccion media"
+          "nombre": "Pesca del día",
+          "mod": "cocción media"
         }
       ]
     },
@@ -208,7 +208,7 @@
       "items": [
         {
           "qty": 1,
-          "nombre": "Volcan de chocolate"
+          "nombre": "Volcán de chocolate"
         },
         {
           "qty": 2,

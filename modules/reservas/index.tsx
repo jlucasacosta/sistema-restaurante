@@ -59,7 +59,7 @@ export function ReservasPage() {
         {/* El plano es un diagrama: conserva su proporcion y se desplaza, no se reordena. */}
         <div className="surface-card min-w-0 overflow-x-auto lg:col-span-3">
          <div className="relative min-h-[34rem] min-w-[40rem] p-6">
-          <span className="absolute left-6 top-4 text-xs uppercase tracking-[0.3em] text-muted">Salon principal</span>
+          <span className="absolute left-6 top-4 text-xs uppercase tracking-[0.3em] text-muted">Salón principal</span>
           <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-md border border-dashed border-border px-3 py-1 text-xs uppercase tracking-widest text-muted">
             Cocina
           </span>
@@ -91,7 +91,7 @@ export function ReservasPage() {
         <div className="space-y-5">
           <div className="surface-card p-5" aria-live="polite">
             <h2 className="mb-4 font-heading text-sm font-bold uppercase tracking-widest">
-              {sel ? `Mesa ${sel.numero}` : "Proximas llegadas"}
+              {sel ? `Mesa ${sel.numero}` : "Próximas llegadas"}
             </h2>
 
             {sel ? (
@@ -119,7 +119,7 @@ export function ReservasPage() {
                 {sel.minutos !== undefined && (
                   <div>
                     <p className="mb-1 flex justify-between text-xs">
-                      <span className="text-muted">Rotacion</span>
+                      <span className="text-muted">Rotación</span>
                       <span>{sel.minutos} / 90 min</span>
                     </p>
                     <div className="h-1.5 overflow-hidden rounded-full bg-subtle">
@@ -131,7 +131,7 @@ export function ReservasPage() {
                   </div>
                 )}
                 <button onClick={() => setSel(null)} className="w-full py-3 text-xs text-muted underline">
-                  ver proximas llegadas
+                  ver próximas llegadas
                 </button>
               </div>
             ) : (

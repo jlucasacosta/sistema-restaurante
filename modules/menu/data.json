@@ -7,7 +7,7 @@
         {
           "id": "e1",
           "nombre": "Provoleta a la brasa",
-          "descripcion": "oregano, aceite de oliva, pan de campo",
+          "descripcion": "orégano, aceite de oliva, pan de campo",
           "precio": "$ 7.400",
           "estado": "disponible",
           "vendidosHoy": 18
@@ -31,7 +31,7 @@
         {
           "id": "e4",
           "nombre": "Rabas",
-          "descripcion": "limon, alioli de ajo asado",
+          "descripcion": "limón, alioli de ajo asado",
           "precio": "$ 11.500",
           "estado": "disponible",
           "vendidosHoy": 9
@@ -39,7 +39,7 @@
         {
           "id": "e5",
           "nombre": "Tartar de trucha",
-          "descripcion": "palta, citricos, tostadas finas",
+          "descripcion": "palta, cítricos, tostadas finas",
           "precio": "$ 10.800",
           "estado": "agotado",
           "vendidosHoy": 14
@@ -69,7 +69,7 @@
         {
           "id": "p2",
           "nombre": "Ojo de bife",
-          "descripcion": "350g, sal parrillera, papas rusticas",
+          "descripcion": "350g, sal parrillera, papas rústicas",
           "precio": "$ 26.900",
           "estado": "disponible",
           "vendidosHoy": 21
@@ -77,7 +77,7 @@
         {
           "id": "p3",
           "nombre": "Entraña",
-          "descripcion": "corte fino, ensalada de estacion",
+          "descripcion": "corte fino, ensalada de estación",
           "precio": "$ 22.800",
           "estado": "pocas porciones",
           "vendidosHoy": 19
@@ -85,7 +85,7 @@
         {
           "id": "p4",
           "nombre": "Asado de tira",
-          "descripcion": "tres costillas, coccion lenta",
+          "descripcion": "tres costillas, cocción lenta",
           "precio": "$ 21.400",
           "estado": "disponible",
           "vendidosHoy": 16
@@ -108,8 +108,8 @@
         },
         {
           "id": "p7",
-          "nombre": "Pesca del dia",
-          "descripcion": "vegetales de estacion, manteca de limon",
+          "nombre": "Pesca del día",
+          "descripcion": "vegetales de estación, manteca de limón",
           "precio": "$ 23.100",
           "estado": "pocas porciones",
           "vendidosHoy": 8
@@ -117,7 +117,7 @@
         {
           "id": "p8",
           "nombre": "Ñoquis caseros",
-          "descripcion": "a eleccion: fileto, pesto o cuatro quesos",
+          "descripcion": "a elección: fileto, pesto o cuatro quesos",
           "precio": "$ 15.900",
           "estado": "disponible",
           "vendidosHoy": 13
@@ -125,7 +125,7 @@
         {
           "id": "p9",
           "nombre": "Cazuela de mariscos",
-          "descripcion": "azafran, tomate, pan tostado",
+          "descripcion": "azafrán, tomate, pan tostado",
           "precio": "$ 25.300",
           "estado": "agotado",
           "vendidosHoy": 7
@@ -133,7 +133,7 @@
         {
           "id": "p10",
           "nombre": "Milanesa napolitana",
-          "descripcion": "ternera, jamon, mozzarella, pure",
+          "descripcion": "ternera, jamón, mozzarella, puré",
           "precio": "$ 19.700",
           "estado": "disponible",
           "vendidosHoy": 22
@@ -146,7 +146,7 @@
       "platos": [
         {
           "id": "g1",
-          "nombre": "Papas rusticas",
+          "nombre": "Papas rústicas",
           "descripcion": "romero y ajo confitado",
           "precio": "$ 5.200",
           "estado": "disponible",
@@ -162,7 +162,7 @@
         },
         {
           "id": "g3",
-          "nombre": "Ensalada de estacion",
+          "nombre": "Ensalada de estación",
           "descripcion": "hojas verdes, tomate, cebolla morada",
           "precio": "$ 4.800",
           "estado": "disponible",
@@ -171,7 +171,7 @@
         {
           "id": "g4",
           "nombre": "Vegetales a la brasa",
-          "descripcion": "zucchini, morron, berenjena",
+          "descripcion": "zucchini, morrón, berenjena",
           "precio": "$ 5.900",
           "estado": "pocas porciones",
           "vendidosHoy": 10
@@ -192,8 +192,8 @@
         },
         {
           "id": "d2",
-          "nombre": "Volcan de chocolate",
-          "descripcion": "corazon tibio, helado de vainilla",
+          "nombre": "Volcán de chocolate",
+          "descripcion": "corazón tibio, helado de vainilla",
           "precio": "$ 7.100",
           "estado": "disponible",
           "vendidosHoy": 20
@@ -201,7 +201,7 @@
         {
           "id": "d3",
           "nombre": "Helado artesanal",
-          "descripcion": "tres bochas a eleccion",
+          "descripcion": "tres bochas a elección",
           "precio": "$ 5.600",
           "estado": "disponible",
           "vendidosHoy": 33

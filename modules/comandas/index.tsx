@@ -23,6 +23,14 @@ const estacionChip: Record<Comanda["estacion"], string> = {
   postres: "bg-success/15 text-success",
 }
 
+// Etiqueta de display: el valor del enum (`fria`) lo compara el codigo y lo valida la DB.
+const estacionLabel: Record<Comanda["estacion"], string> = {
+  parrilla: "parrilla",
+  fria: "fría",
+  salsas: "salsas",
+  postres: "postres",
+}
+
 function Ticket({ c, tick, onAvanzar }: { c: Comanda; tick: number; onAvanzar: (id: string) => void }) {
   const [saliendo, setSaliendo] = useState(false)
   const segundos = c.firedHace + tick
@@ -52,7 +60,7 @@ function Ticket({ c, tick, onAvanzar }: { c: Comanda; tick: number; onAvanzar: (
         </div>
         <div className="text-right">
           <p className={"mesa-num text-4xl " + textoDeFuego[nivel]}>{mmss(segundos)}</p>
-          <span className={"chip mt-1 " + estacionChip[c.estacion]}>{c.estacion}</span>
+          <span className={"chip mt-1 " + estacionChip[c.estacion]}>{estacionLabel[c.estacion]}</span>
         </div>
       </div>
 
@@ -77,10 +85,10 @@ function Ticket({ c, tick, onAvanzar }: { c: Comanda; tick: number; onAvanzar: (
         <span className="text-xs text-muted">{c.mozo}</span>
         <button
           onClick={salir}
-          aria-label={(c.estado === "listo" ? "Salio" : "Avanzar") + " mesa " + c.mesa}
+          aria-label={(c.estado === "listo" ? "Salió" : "Avanzar") + " mesa " + c.mesa}
           className="min-h-11 rounded-lg bg-primary px-4 py-2 text-xs font-bold uppercase tracking-wide text-bg transition-opacity hover:opacity-90"
         >
-          {c.estado === "listo" ? "Salio" : "Avanzar"}
+          {c.estado === "listo" ? "Salió" : "Avanzar"}
         </button>
       </div>
     </article>

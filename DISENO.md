@@ -73,7 +73,7 @@ Dos manos distintas, dos apuros distintos, una sola operación:
 | **dashboard** | `hero-board` (Comandas en curso + ticker) | No opera, resume la noche. Hero horizontal = Comandas en curso de órdenes activas. Arriba: ticker vivo (cubiertos, ticket promedio, rotación) + barras por hora (curva de rush). Anillo/hero-number de tiempo promedio de fuego. Sin selector de período. |
 | **conversaciones** | `master-detail` | Bandeja de pedidos/consultas entrantes (reservas por WhatsApp, delivery). Lista de hilos a la izquierda, conversación abierta a la derecha. Estados en pill. |
 | **contactos** | `galeria` | Fichas de comensales frecuentes / VIP: card con avatar, visitas, plato favorito, última reserva. Distinto de la tabla-densa de inmobiliaria. |
-| **config** | `paneles-de-seccion` | Ajustes en tarjetas agrupadas (marca, sala, integraciones, usuarios). Layout de secciones simples — NO acordeon (ya lo usa Menú), para no repetir arquetipo dentro del mismo sistema. |
+| **config** | `paneles-de-seccion` | Ajustes en tarjetas agrupadas (marca, sala, integraciones, usuarios). Layout de secciones simples — NO acordeón (ya lo usa Menú), para no repetir arquetipo dentro del mismo sistema. |
 
 ---
 

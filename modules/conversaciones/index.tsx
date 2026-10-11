@@ -97,7 +97,7 @@ export function ConversacionesPage() {
                 <p className="font-heading font-bold">{actual.name}</p>
                 <p className="flex items-center gap-1.5 text-xs text-muted">
                   <span className="h-1.5 w-1.5 rounded-full bg-success" />
-                  en linea
+                  en línea
                 </p>
               </div>
             </div>
@@ -118,8 +118,8 @@ export function ConversacionesPage() {
           </div>
           <div className="flex items-center gap-2 border-t border-border p-4">
             <input
-              aria-label="Escribi un mensaje"
-              placeholder="Escribi un mensaje..."
+              aria-label="Escribí un mensaje"
+              placeholder="Escribí un mensaje..."
               className="w-full rounded-xl bg-subtle px-4 py-2.5 text-sm"
             />
             <button

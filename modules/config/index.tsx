@@ -28,19 +28,19 @@ export function ConfigPage() {
   const c = theme.colors
   return (
     <div className="space-y-6">
-      <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Configuracion</h1>
+      <h1 className="font-heading text-3xl font-bold uppercase tracking-tight">Configuración</h1>
 
       <div className="grid gap-5 lg:grid-cols-2">
         <Panel titulo="Marca">
           <Fila label="Nombre" value={theme.brand.name} />
-          <Fila label="Titulos" value={theme.font.heading} />
+          <Fila label="Títulos" value={theme.font.heading} />
           <Fila label="Cuerpo" value={theme.font.body} />
         </Panel>
 
         <Panel titulo="Forma">
           <Fila label="Modo" value={theme.mode} />
-          <Fila label="Navegacion" value={theme.nav} />
-          <Fila label="Elevacion" value={theme.elevation} />
+          <Fila label="Navegación" value={theme.nav} />
+          <Fila label="Elevación" value={theme.elevation} />
           <Fila label="Bordes" value={theme.radius} />
           <Fila label="Densidad" value={theme.density} />
           <Fila label="Chips" value={theme.badge} />
@@ -50,16 +50,16 @@ export function ConfigPage() {
           <Fila label="Brasa (primario)" value={c.primary} swatch />
           <Fila label="Glow (acento)" value={c.accent} swatch />
           <Fila label="Listo" value={c.success} swatch />
-          <Fila label="Atencion" value={c.warning} swatch />
+          <Fila label="Atención" value={c.warning} swatch />
           <Fila label="Demorado" value={c.danger} swatch />
           <Fila label="Info" value={c.info} swatch />
         </Panel>
 
         <Panel titulo="Cocina">
-          <Fila label="Umbral ambar" value={`${theme.fuego.ok} min`} />
+          <Fila label="Umbral ámbar" value={`${theme.fuego.ok} min`} />
           <Fila label="Umbral demorado" value={`${theme.fuego.demora} min`} />
           <p className="pt-2 text-xs text-muted">
-            Las Comandas en curso usan estos dos numeros para marcar los tiempos. Cambialos y se ajusta toda la cocina.
+            Las Comandas en curso usan estos dos números para marcar los tiempos. Cambialos y se ajusta toda la cocina.
           </p>
         </Panel>
       </div>
@@ -67,14 +67,14 @@ export function ConfigPage() {
       <Panel titulo="Estados">
         <div className="flex flex-wrap gap-2">
           <span className="chip bg-success/15 text-success">listo</span>
-          <span className="chip bg-warning/15 text-warning">atencion</span>
+          <span className="chip bg-warning/15 text-warning">atención</span>
           <span className="chip bg-danger/15 text-danger-ink">demorado</span>
           <span className="chip bg-info/15 text-info">reservada</span>
-          <span className="chip bg-primary/15 text-primary-ink">en preparacion</span>
+          <span className="chip bg-primary/15 text-primary-ink">en preparación</span>
           <span className="chip bg-accent/15 text-accent">vip</span>
         </div>
         <p className="pt-2 text-xs text-muted">
-          Todo esto sale de shell/theme.ts. Cambias un archivo y muta el sistema entero.
+          Todo esto sale de shell/theme.ts. Cambiás un archivo y muta el sistema entero.
         </p>
       </Panel>
     </div>

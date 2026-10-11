@@ -1,6 +1,6 @@
 # Brasa Cocina — Sistema para restaurantes
 
-Un sistema de gestion para restaurantes: menu, reservas, comandas en cocina, conversaciones con clientes y contactos. Un sistema demo hecho con Next.js.
+Un sistema de gestión para restaurantes: menú, reservas, comandas en cocina, conversaciones con clientes y contactos. Un sistema demo hecho con Next.js.
 
 > Es un demo **frontend** con datos de ejemplo (mock). No tiene backend conectado: sirve para ver cómo se ve y cómo funciona un sistema así, y para aprender a construirlo.
 
@@ -18,13 +18,13 @@ Aprendé a crear tu Agencia de IA y conseguir tu primer cliente. Eso lo trabajam
 ---
 
 ## Qué incluye
-- Dashboard con metricas del negocio
-- Menu (catalogo de platos con filtros por categoria)
+- Dashboard con métricas del negocio
+- Menú (catálogo de platos con filtros por categoría)
 - Conversaciones (inbox de clientes)
 - Reservas (agenda de mesas del dia)
 - Comandas (tablero de cocina por estado)
 - Contactos (clientes)
-- Configuracion
+- Configuración
 
 ## Requisitos (instalá esto primero)
 

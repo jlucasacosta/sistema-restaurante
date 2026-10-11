@@ -1,4 +1,4 @@
-# Backend — Comandas (ordenes)
+# Backend — Comandas (órdenes)
 > Asume BACKEND_RULES.md.
 
 - Tablas: comandas (mesa, contacto_id, estado, items[], total)

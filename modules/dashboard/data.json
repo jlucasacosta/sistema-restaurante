@@ -14,7 +14,7 @@
     },
     {
       "id": "3",
-      "label": "Rotacion de mesa",
+      "label": "Rotación de mesa",
       "valor": "74 min",
       "tono": "info"
     },
@@ -100,7 +100,7 @@
       "mesa": "11",
       "firedHace": 640,
       "objetivo": 600,
-      "resumen": "2 Risotto · Pesca del dia"
+      "resumen": "2 Risotto · Pesca del día"
     },
     {
       "id": "4",

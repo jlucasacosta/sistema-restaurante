@@ -74,7 +74,7 @@ export function ContactosPage() {
               <div>
                 <p className="text-xs uppercase tracking-widest text-muted">Plato favorito</p>
                 <p className="text-sm font-medium">{c.favorito}</p>
-                <p className="mt-1 text-xs text-muted">ultima visita {c.ultima}</p>
+                <p className="mt-1 text-xs text-muted">última visita {c.ultima}</p>
               </div>
               <div className="text-right">
                 <p className="mesa-num text-4xl text-primary">{c.visitas}</p>

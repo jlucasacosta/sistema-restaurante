@@ -86,7 +86,7 @@ Cada módulo trae además un `BACKEND.md` con notas cortas. Esta guía las desar
 | `Comanda` | `firedHace` (segundos) | `comandas.fired_at` | `(now() - fired_at)` en segundos |
 | `Comanda` | `objetivo` (segundos) | `comandas.objetivo_seg` | directo |
 | `Comanda` | `items[]` | `comanda_items` (`qty`, `nombre`, `mod`) | relación 1 a N |
-| `Comensal` | `ultima` ("hace 4 dias") | `contactos.ultima_visita` | lo formateás en `api.ts` |
+| `Comensal` | `ultima` ("hace 4 días") | `contactos.ultima_visita` | lo formateás en `api.ts` |
 | `Plato` | `precio` ("$ 7.400") | `platos.precio` (número) | lo formateás en `api.ts` |
 | `Plato` | `vendidosHoy` | `platos.vendidos_hoy` | columna simple (en producción: conteo sobre `comanda_items`) |
 | `Mesa` | `estado`, `cliente`, `hora`, `minutos` | `reservas` (`estado`, `cliente`, `inicio`, `sentada_at`) | join con la reserva activa de la mesa; `minutos = now() - sentada_at`; mesa sin reserva activa = `libre` |
@@ -143,7 +143,7 @@ create table public.contactos (
   email         text,
   visitas       integer not null default 0 check (visitas >= 0),
   favorito      text,                       -- nombre del plato favorito
-  ultima_visita timestamptz,                -- api.ts lo devuelve como "hace 4 dias"
+  ultima_visita timestamptz,                -- api.ts lo devuelve como "hace 4 días"
   tipo          text not null default 'nuevo'
                 check (tipo in ('vip', 'frecuente', 'nuevo', 'inactivo')),
   created_at    timestamptz not null default now()
@@ -334,7 +334,7 @@ alter publication supabase_realtime add table public.comandas, public.reservas, 
 
 ### 3.3 Cargar los datos de ejemplo
 
-Tenés dos caminos. Recomendamos el **A**: respeta las relaciones (reservas ↔ mesas, items ↔ comandas) y convierte los textos del demo ("hace 4 dias", "$ 7.400", "21:10") a fechas y números reales.
+Tenés dos caminos. Recomendamos el **A**: respeta las relaciones (reservas ↔ mesas, items ↔ comandas) y convierte los textos del demo ("hace 4 días", "$ 7.400", "21:10") a fechas y números reales.
 
 **A. Script que lee los `data.json`** (necesita Node 20.6 o mayor):
 
@@ -371,8 +371,8 @@ function construirFilas(raiz) {
     if (texto === "hoy") return 0
     if (texto === "ayer") return 1
     if (texto === "hace mes y medio") return 45
-    const [, n, unidad] = texto.match(/^hace (\d+) (dias|semanas|meses)$/)
-    return Number(n) * (unidad === "dias" ? 1 : unidad === "semanas" ? 7 : 30)
+    const [, n, unidad] = texto.match(/^hace (\d+) (días|semanas|meses)$/)
+    return Number(n) * (unidad === "días" ? 1 : unidad === "semanas" ? 7 : 30)
   }
 
   // contactos
